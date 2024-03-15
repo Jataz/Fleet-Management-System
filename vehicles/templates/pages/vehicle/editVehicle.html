@@ -1,0 +1,105 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="editVehicleModal" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editVehicleModalLabel">Update Vehicle Record</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editVehicleForm" style="font-size:15px">
+                    {% csrf_token %}
+                    <input type="hidden" id="vehicle_id" name="vehicle_id">
+                    <div class="row g-2">
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="number_plate">Number Plate</label>
+                                <input type="text" class="form-control" id="number_plate" name="number_plate" value="{{ vehicle.number_plate }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle_type">Vehicle Type</label>
+                                <select class="form-control" id="vehicle_type" name="vehicle_type" required>
+                                    <option selected="selected" disabled="disabled">Select Vehicle Type</option>
+                                    <option value="Land Cruiser VX" {% if vehicle.vehicle_type == "Land Cruiser VX" %} selected {% endif %}>Land Cruiser VX</option>
+                                    <option value="Isuzu D/cab" {% if vehicle.vehicle_type == "Isuzu D/cab" %} selected {% endif %}>Isuzu D/cab</option>
+                                    <option value="Isuzu S/cab" {% if vehicle.vehicle_type == "Isuzu S/cab" %} selected {% endif %}>Isuzu S/cab</option>
+                                    <option value="FOTON" {% if vehicle.vehicle_type == "FOTON" %} selected {% endif %}>FOTON</option>
+                                    <option value="JMC S/cab" {% if vehicle.vehicle_type == "JMC S/cab" %} selected {% endif %}>JMC S/cab</option>
+                                    <option value="Mazda S/cab" {% if vehicle.vehicle_type == "Mazda S/cab" %} selected {% endif %}>Mazda S/cab</option>
+                                    <option value="Mazda Eagle" {% if vehicle.vehicle_type == "Mazda Eagle" %} selected {% endif %}>Mazda Eagle</option>
+                                    <option value="Mazda BT50" {% if vehicle.vehicle_type == "Mazda BT50" %} selected {% endif %}>Mazda BT50</option>
+                                    <option value="Mazda T35 Bus" {% if vehicle.vehicle_type == "Mazda T35 Bus" %} selected {% endif %}>Mazda T35 Bus</option>
+                                    <option value="Mazda BT50/KINGCAB" {% if vehicle.vehicle_type == "Mazda BT50/KINGCAB" %} selected {% endif %}>Mazda BT50/KINGCAB</option>
+                                    <option value="Mitsubishi S/Cab" {% if vehicle.vehicle_type == "Mitsubishi S/Cab" %} selected {% endif %}>Mitsubishi S/Cab</option>
+                                    <option value="Mitsubishi L200" {% if vehicle.vehicle_type == "Mitsubishi L200" %} selected {% endif %}>Mitsubishi L200</option>
+                                    <option value="Mitsubishi Lorry" {% if vehicle.vehicle_type == "Mitsubishi Lorry" %} selected {% endif %}>Mitsubishi Lorry</option>
+                                    <option value="Toyota Coaster" {% if vehicle.vehicle_type == "Toyota Coaster" %} selected {% endif %}>Toyota Coaster</option>
+                                    <option value="Toyota Prado" {% if vehicle.vehicle_type == "Toyota Prado" %} selected {% endif %}>Toyota Prado</option>
+                                    <option value="Toyota Hilux" {% if vehicle.vehicle_type == "Toyota Hilux" %} selected {% endif %}>Toyota Hilux</option>
+                                    <option value="Toyota Landcruiser" {% if vehicle.vehicle_type == "Toyota Landcruiser" %} selected {% endif %}>Toyota Landcruiser</option>
+                                    <option value="Toyota Avensis" {% if vehicle.vehicle_type == "Toyota Avensis" %} selected {% endif %}>Toyota Avensis</option>
+                                    <option value="Nissan NP300 D/CAB" {% if vehicle.vehicle_type == "Nissan NP300 D/CAB" %} selected {% endif %}>Nissan NP300 D/CAB</option>
+                                    <option value="Nissan D/Cab" {% if vehicle.vehicle_type == "Nissan D/Cab" %} selected {% endif %}>Nissan D/Cab</option>
+                                    <option value="Nissan H/Body" {% if vehicle.vehicle_type == "Nissan H/Body" %} selected {% endif %}>Nissan H/Body</option>
+                                    <option value="Nissan" {% if vehicle.vehicle_type == "Nissan" %} selected {% endif %}>Nissan</option>
+                                    <option value="Nissan Hardbody S/CAB" {% if vehicle.vehicle_type == "Nissan Hardbody S/CAB" %} selected {% endif %}>Nissan Hardbody S/CAB</option>
+                                </select>
+                                                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="engine_number">Engine Number</label>
+                                <input type="text" class="form-control" id="engine_number" name="engine_number" placeholder="Enter Engine Number" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="classis_number">Classis Number</label>
+                                <input type="text" class="form-control" id="classis_number" name="classis_number" placeholder="Enter Classis Number" required>   
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2"> 
+                        <div class="mb-3 col-md-3">
+                            <div class="form-group">
+                                <label for="province">Province</label>
+                                    <select class="form-control select2" id="province-dropdown" name="province">
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-3">
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <select class="form-control select2" id="location-dropdown" name="location">
+                                    <!-- Options will be populated dynamically -->
+                                </select>                              
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control select2"  id="status" name="status" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

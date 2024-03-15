@@ -1,0 +1,78 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="editMileageModal" tabindex="-1" role="dialog" aria-labelledby="editMileageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editMileageModalLabel"> Update Mileage Record</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editMileageForm" autocomplete="off" style="font-size: 15px">
+                  <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                            <label for="vehicle">Vehicle</label>
+                            <select class="form-control" id="vehicle" name="vehicle" required>
+                                <option value="" selected disabled>Select Vehicle</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                            <label for="vehicle_user ">Vehicle User</label>
+                            <input type="text" class="form-control"  id="vehicle_user" name="vehicle_user" value="{{ mileage.vehicle_user }}"  required>
+                        </div>
+                    </div>
+                
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                            <label for="mileage_date">Date of Mileage</label>
+                            <input type="date" class="form-control" id="mileage_date" name="mileage_date" value="{{ mileage.mileage_date }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                            <label for="mileage_reading">Mileage Reading</label>
+                            <input type="number" class="form-control" id="mileage_reading" name="mileage_reading" value="{{ mileage.mileage_reading }}" required>
+                        </div>
+                    </div>
+    
+                  </div>
+                  
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="submitMaintenanceBtn">Update</button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; z-index: 9999;"></div>
+    <!-- Popup -->
+    <div class="modal fade" id="numberPlateExistsModal" tabindex="-1" role="dialog" aria-labelledby="numberPlateExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="numberPlateExistsModalLabel">Number Plate Already Exists</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>The number plate you entered already exists. Please enter a different number plate.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    

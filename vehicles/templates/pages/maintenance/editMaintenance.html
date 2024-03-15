@@ -1,0 +1,100 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="editMaintenanceModal" tabindex="-1" role="dialog" aria-labelledby="editMaintenanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editMaintenanceModalLabel"> Update Maintenance Record</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editMaintenanceForm" autocomplete="off" style="font-size: 15px">
+                    <div class="row g-2">
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="vehicle">Vehicle</label>
+                          <select class="form-control" id="vehicle" name="vehicle" required>
+                            <option value="" selected disabled>Select Vehicle</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="row g-2">
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="last_service_mileage">Last Service Mileage</label>
+                          <input type="number" class="form-control" id="last_service_mileage" name="last_service_mileage" placeholder="Enter Last Service Mileage" value="{{ maintenance.last_service_mileage }}" required>
+                        </div>
+                      </div>
+                  
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="before_next_service_mileage">Before Next Service Mileage</label>
+                          <input type="number" class="form-control" id="before_next_service_mileage" name="before_next_service_mileage" placeholder="Enter Before Next Service Mileage" value="{{ maintenance.before_next_service_mileage }}" required>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="row g-2">
+                      <div class="mb-3 col-md-6">
+                        <label for="next_service_mileage">Next Service Mileage</label>
+                        <input type="number" class="form-control" id="next_service_mileage" name="next_service_mileage" placeholder="Enter Next Service Mileage" value="{{ maintenance.next_service_mileage }}" required>
+                      </div>
+                  
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="next_service_date">Service Date</label>
+                          <input type="date" class="form-control" id="next_service_date" name="next_service_date" placeholder="Select Service Date" value="{{ maintenance.next_service_date }}" required>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="row g-2">
+                      <div class="mb-3 col-md-6">
+                        <label for="service_type">Service Type</label>
+                        <input type="text" class="form-control" id="service_type" name="service_type" placeholder="Enter Service Type" value="{{ maintenance.service_type }}" required>
+                      </div>
+                  
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="cost_incurred">Estimated Cost</label>
+                          <input type="number" class="form-control" id="cost_incurred" name="cost_incurred" placeholder="Enter Cost Estimated" step="0.01" value="{{ maintenance.cost_incurred }}" required>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="submitMaintenanceBtn">Submit</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; z-index: 9999;"></div>
+    <!-- Popup -->
+    <div class="modal fade" id="numberPlateExistsModal" tabindex="-1" role="dialog" aria-labelledby="numberPlateExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="numberPlateExistsModalLabel">Number Plate Already Exists</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>The number plate you entered already exists. Please enter a different number plate.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    

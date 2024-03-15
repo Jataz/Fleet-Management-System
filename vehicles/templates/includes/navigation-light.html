@@ -1,0 +1,35 @@
+  {% load static %}
+  
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <div class="navbar-center mx-auto">
+      <span class="header-text" style="font-size: 22px; color: green;">
+            MINISTRY OF WOMEN AFFAIRS, COMMUNITY, SMALL AND MEDIUM ENTERPRISES DEVELOPMENT
+      </span>
+    </div>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+   
+      <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+              <i class="fa fa-user" style="color: rgb(35, 157, 233);"></i> &nbsp;
+              <span  style="font-weight: 700; color: rgb(35, 157, 233);"> {{request.user.first_name | upper}} {{request.user.last_name | upper}}</span>
+            </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
