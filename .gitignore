@@ -1,5 +1,5 @@
 
 env/
 management/__pycache__/
-vehicle/__pycache__/
-vehicle/migrations/__pycache__/
+vehicles/__pycache__/
+vehicles/migrations/__pycache__/
