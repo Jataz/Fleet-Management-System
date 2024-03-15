@@ -193,13 +193,14 @@ class MileageRecordSerializer(serializers.ModelSerializer):
         vehicle = data.get('vehicle')  # 'vehicle' is obtained from the 'source' attribute in 'vehicle_id' field
         
         # Attempt to retrieve the most recent Maintenance record for the vehicle
-        last_maintenance = Maintenance.objects.filter(vehicle=vehicle).order_by('-created_at').first()
+        last_maintenance = MileageRecord.objects.filter(vehicle=vehicle).order_by('-created_at').first()
+        
         
         if last_maintenance:
             # Check if the submitted mileage_reading is greater than the last recorded service mileage
-            if data['mileage_reading'] <= last_maintenance.last_service_mileage:
+            if data['mileage_reading'] <= last_maintenance.mileage_reading:
                 current_mileage = data['mileage_reading']
-                message = f"The mileage reading {current_mileage} must be greater than {last_maintenance.last_service_mileage}."
+                message = f"The mileage reading {current_mileage} must be greater than {last_maintenance.mileage_reading}."
                 raise serializers.ValidationError(message)
         
         # Return the full collection of validated data if all checks pass
