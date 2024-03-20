@@ -16,6 +16,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: fleet_management
           MYSQL_USER: root
+          MYSQL_PASSWORD: password
         ports:
           - 3306:3306
         options: >-
@@ -40,7 +41,7 @@ jobs:
         pip install -r requirements.txt
     - name: Setup Database Configurations (Optional Step)
       run: |
-        echo "DATABASE_URL=mysql://user:password@localhost:3306/testdb" >> $GITHUB_ENV
+        echo "DATABASE_URL=mysql://user:password@localhost:3306/fleet_management" >> $GITHUB_ENV
     - name: Run Migrations
       run: |
         python manage.py migrate
