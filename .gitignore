@@ -3,3 +3,4 @@ env/
 management/__pycache__/
 vehicles/__pycache__/
 vehicles/migrations/__pycache__/
+.github
