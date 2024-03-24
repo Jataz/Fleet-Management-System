@@ -40,13 +40,39 @@
       </a>
     </li>
 
-    <li class="nav-item">
-      <a href="{% url 'fuel-list' %}" class="nav-link" >
+<!--     <li class="nav-item">
+      <a href="{% url 'fuel-disbursed' %}" class="nav-link" >
         <i class="nav-icon fas fa-gas-pump"></i>
         <p>
           Fuel Disbursement
         </p>
       </a>
+    </li> -->
+
+    <li class="nav-item">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-gas-pump"></i>
+        <p>
+          Fuel
+          <i class="fas fa-angle-left right"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="{% url 'fuel-received' %}" class="nav-link">
+            <i class="fas fa-gas-pump nav-icon"></i>
+            <p>Fuel Received</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'fuel-disbursed' %}" class="nav-link" >
+            <i class="nav-icon fas fa-gas-pump"></i>
+            <p>
+              Fuel Disbursement
+            </p>
+          </a>
+        </li>
+      </ul>
     </li>
 
  

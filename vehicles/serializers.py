@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Location, Province, Status, Vehicle,Maintenance, MileageRecord,FuelDisbursement, VehicleUser
+from .models import Location, Programme, Province, Status, SubProgramme, Vehicle,Maintenance, MileageRecord,FuelDisbursement, VehicleUser
 
 
 class ProvinceSerializer(serializers.ModelSerializer):
@@ -16,6 +16,16 @@ class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
         fields = ['id', 'status_name']
+        
+class SubProgrammeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubProgramme
+        fields = ['id','subProgramme_name']
+        
+class ProgrammeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Programme
+        fields = ['id','programme_name']
 
 class VehicleUserSerializer(serializers.ModelSerializer):
     province_name = serializers.ReadOnlyField(source='province.province_name')
@@ -47,7 +57,7 @@ class MaintenanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Maintenance
-        fields = ['id', 'vehicle_id', 'number_plate', 'status_name', 'last_service_mileage', 'before_next_service_mileage', 'next_service_mileage', 'next_service_date', 'service_type', 'cost_incurred']
+        fields = ['id', 'vehicle_id', 'number_plate', 'status_name', 'last_service_mileage', 'before_next_service_mileage', 'next_service_mileage', 'next_service_date', 'service_type', 'cost_incurred','service_date', 'service_type', 'service_provided', 'service_provider', 'remarks', 'is_serviced','updated_at']
         extra_kwargs = {
             'before_next_service_mileage': {'read_only': True},
             'next_service_mileage': {'read_only': True},
@@ -208,8 +218,14 @@ class MileageRecordSerializer(serializers.ModelSerializer):
         
 class FuelDisbursementSerializer(serializers.ModelSerializer):
     number_plate = serializers.ReadOnlyField(source='vehicle.number_plate')
+    subProgramme_name = serializers.ReadOnlyField(source='subProgramme.subProgramme_name')
+    programme_name = serializers.ReadOnlyField(source='programme.programme_name')
+    driver_name = serializers.ReadOnlyField(source='driver.name')
     vehicle_id = serializers.PrimaryKeyRelatedField(queryset=Vehicle.objects.all(), write_only=True, source='vehicle')
+    subProgramme_id = serializers.PrimaryKeyRelatedField(queryset=SubProgramme.objects.all(), write_only=True, source='subProgramme')
+    programme_id = serializers.PrimaryKeyRelatedField(queryset=Programme.objects.all(), write_only=True, source='programme')
+    driver_id = serializers.PrimaryKeyRelatedField(queryset=VehicleUser.objects.all(), write_only=True, source='driver')
 
     class Meta:
         model = FuelDisbursement
-        fields = ['id', 'vehicle_id', 'number_plate', 'purpose', 'amount_of_fuel_disbursed', 'coupon_serial_number','driver_name','issuer_name','transaction_date']
+        fields = ['id', 'vehicle_id','driver_id','driver_name','subProgramme_id','programme_id', 'number_plate','subProgramme_name','programme_name', 'purpose', 'amount_of_fuel_disbursed', 'coupon_serial_number','driver_name','issuer_name','transaction_date']

@@ -147,6 +147,21 @@
     {% endblock control_sidebar %}
 
   </div>
+
+  <script>
+    $(function () {
+      $('#dataTable').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "buttons": ["excel", "pdf", "print"],
+      }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
+    });
+  </script>
   
   {% include 'includes/scripts.html' %}
   {% block extra_scripts %}{% endblock extra_scripts %}

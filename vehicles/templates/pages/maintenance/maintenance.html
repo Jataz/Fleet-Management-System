@@ -46,7 +46,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h1 class="card-title">Maintenance List</h1>
+                <h1 class="card-title">Maintenance</h1>
                 <div class="d-flex justify-content-end">
                   <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#addMaintenanceModal"><i class="fas fa-plus-circle"></i> Add Maintenance </a>
                 </div>
@@ -125,24 +125,6 @@
 <script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 <!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example2").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-    $('#dataTable').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": false,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-      //"buttons": ["excel", "pdf", "print"],
-    }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-  });
-</script>
 
 {% include 'pages/maintenance/scripts.html' %}
 

@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import FuelDisbursementCreate, FuelDisbursementDetail, FuelDisbursementList, LocationAPIView, MaintenanceClose, MaintenanceCreate, MileageRecordAPIView, MileageRecordCreate, MileageRecordDetail, MileageRecordList, ProvinceAPIView, StatusAPIView, UpdateFuelDisbursement, UpdateMileageRecord, VehicleCreate, VehicleList, VehicleDetail, UpdateVehicle,MaintenanceList, MaintenanceDetail, UpdateMaintenance, VehicleUserList, check_vehicle_exists
+from .views import FuelDisbursementCreate, FuelDisbursementDetail, FuelDisbursementList, LocationAPIView, MaintenanceClose, MaintenanceCreate, MileageRecordCreate, MileageRecordDetail, MileageRecordList, ProgrammeAPIView, ProvinceAPIView, StatusAPIView, SubProgrammeAPIView, UpdateFuelDisbursement, UpdateMileageRecord, VehicleCreate, VehicleList, VehicleDetail, UpdateVehicle,MaintenanceList, MaintenanceDetail, UpdateMaintenance, VehicleUserList, check_vehicle_exists
 from . import views
 
 
@@ -28,7 +28,7 @@ urlpatterns = [
     #Fuel Disbursememt API
     path('fuel-disbursements/', FuelDisbursementList.as_view(), name='fuel-disbursement'),
      path('fuel-disbursement-create/', FuelDisbursementCreate.as_view(), name='fuel-disbursement-create'),
-    path('fuel-disbursement-deatil/<int:pk>/', FuelDisbursementDetail.as_view(), name='fuel-disbursement-detail'),
+    path('fuel-disbursement-detail/<int:pk>/', FuelDisbursementDetail.as_view(), name='fuel-disbursement-detail'),
     path('fuel-disbursement-update/<int:pk>/', UpdateFuelDisbursement.as_view(), name='fuel-disbursement-update'),
     
     #Dropdowns
@@ -37,18 +37,16 @@ urlpatterns = [
     path('statuses/', StatusAPIView.as_view(), name='status'),
     path('vehicle-user-list/', VehicleUserList.as_view(), name="vehicle-user-list"), 
     
-    path('province/<int:province_id>/', views.ProvinceDetailView.as_view(), name='province_detail'),
-    path('location/<int:location_id>/', views.LocationDetailView.as_view(), name='location_detail'),
-    path('status/<int:status_id>/', views.StatusDetailView.as_view(), name='status_detail'),
+    path('sub-programmes/', SubProgrammeAPIView.as_view(), name='sub-programmes'),
+    path('programmes/', ProgrammeAPIView.as_view(), name='programmes'),
+    
     
     #Frontend
     path('', views.index ,name='index'),
     path('vehicle-list/', views.vehicle_list, name='vehicle-list'),
     path('maintenance-list/', views.maintenance_list, name='maintenance-list'),
     path('mileage-list/', views.mileage_list, name='mileage-list'),
-    path('fuel-list/', views.fuel_list, name='fuel-list'),
+    path('fuel-disbursed/', views.fuel_disbursed, name='fuel-disbursed'),
+    path('fuel-received/',views.fuel_received, name='fuel-received'),
     
-    
-    path('mileage_record/', MileageRecordAPIView.as_view(), name='api_mileage_record'),
-
 ]

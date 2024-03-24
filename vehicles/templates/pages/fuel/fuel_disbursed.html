@@ -46,7 +46,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h1 class="card-title">Fuel Disbursement List</h1>
+                <h1 class="card-title">Fuel Disbursement</h1>
                 <div class="d-flex justify-content-end">
                   <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#addFuelModal"><i class="fas fa-plus-circle"></i> Add Fuel Disbursement</a>
                 </div>
@@ -57,11 +57,12 @@
                   <thead style="background-color: lightblue;">
                     <tr>
                       <th>No.</th>
+                      <th>Sub Programme</th>
+                      <th>Programme</th>
                       <th>Vehicle</th>
                       <th>Amount of Fuel</th>
-                      <th>Coupon Serial No.</th>
-                      <th>Driver Name</th>
-                      <th>Issuer Name</th>
+                      <th>Issuer</th>
+                      <th>Driver</th>
                       <th>Date of Transaction</th>
                       <th>Actions</th>
                     </tr>
@@ -70,11 +71,12 @@
                     {% for fuel in fuel_disbursements %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
+                          <td>{{ fuel.subProgramme_name }}</td>
+                          <td>{{ fuel.programme_name }}</td>
                           <td>{{ fuel.number_plate }}</td>
                           <td>{{ fuel.amount_of_fuel_disbursed }}</td>
-                          <td>{{ fuel.coupon_serial_number }}</td>
-                          <td>{{ fuel.driver_name }}</td>
                           <td>{{ fuel.issuer_name }}</td>
+                          <td>{{ fuel.driver_name }}</td>
                           <td>{{ fuel.transaction_date }}</td>
                           <td class="project-actions">
                             <a class="btn btn-outline-info btn-sm" href="#" style="padding: 0px 1px; font-size: 13px; color: #2a1b1b;">
@@ -123,23 +125,6 @@
 <script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 <!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example2").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": true,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-    $('#dataTable').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": false,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 {% include 'pages/fuel/scripts.html' %}
 
 {% endblock extra_scripts %}

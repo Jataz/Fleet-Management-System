@@ -16,3 +16,18 @@
 <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
 <script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
 
+<script>
+    $(function () {
+      $('#dataTable').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "buttons": ["excel", "pdf", "print","colvis"],
+      }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
+    });
+  </script>
+

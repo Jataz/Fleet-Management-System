@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %}| Mileage {% endblock title %}
+{% block title %}| Fuel Received {% endblock title %}
 {% block extrastyle %}
 <!-- DataTables -->
 <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
@@ -21,7 +21,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Mileage</li>
+              <li class="breadcrumb-item active">Fuel Received</li>
             </ol>
           </div>
         </div>
@@ -46,9 +46,9 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h1 class="card-title">Mileage of Vehicles</h1>
+                <h1 class="card-title">Fuel Received</h1>
                 <div class="d-flex justify-content-end">
-                  <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#addMileageModal"><i class="fas fa-plus-circle"></i> Add Mileage </a>
+                  <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#addFuelReceivedModal"><i class="fas fa-plus-circle"></i> Add Fuel Received</a>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -57,33 +57,27 @@
                   <thead style="background-color: lightblue;">
                     <tr>
                       <th>No.</th>
-                      <th>Vehicle</th>
-                      <th>Vehicle User</th>
-                      <th>Mileage Date</th>
-                      <th>Mileage Reading</th>
-                      <th>Province</th>
-                      <th>Location</th>
+                      <th>Fuel Recived</th>
+                      <th>Captured By</th>
+                      <th>Date of Transaction</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for mileage in mileage_records %}
+                    {% for fuel in fuel_disbursements %}
                         <tr>
                           <td>{{ forloop.counter }}</td>
-                          <td>{{ mileage.number_plate }}</td>
-                          <td>{{ mileage.name }}</td>
-                          <td>{{ mileage.created_at }}</td>
-                          <td>{{ mileage.mileage_reading }}</td>
-                          <td>{{ mileage.province_name }}</td>
-                          <td>{{ mileage.location_name }}</td>
+                          <td>{{ fuel.amount_of_fuel_disbursed }}</td>
+                          <td>{{ fuel.issuer_name }}</td>
+                          <td>{{ fuel.transaction_date }}</td>
                           <td class="project-actions">
-                            <a class="btn btn-outline-info btn-sm" href="#" style="padding: 0px 1px; font-size: 13px; color: #322929;">
+                            <a class="btn btn-outline-info btn-sm" href="#" style="padding: 0px 1px; font-size: 13px; color: #2a1b1b;">
                               <i class="fas fa-eye"></i> View
                             </a>
-                            <a class="btn btn-outline-info btn-sm edit-mileage-link" href="#" data-toggle="modal" data-target="#editMileageModal" data-mileage-id="{{ mileage.id }}" style="padding: 0px 1px; font-size: 13px; color: #322929;">
+                            <a class="btn btn-outline-info btn-sm edit-fuel-link" href="#" data-toggle="modal" data-target="#editFuelModal" data-fuel-id="{{ fuel.id }}" style="padding: 0px 1px; font-size: 13px; color: #312121;">
                               <i class="fas fa-pencil-alt"></i> Edit
                             </a>
-                            <a class="btn btn-outline-info btn-sm" href="#" style="padding:0px 1px; color:#322929;">
+                            <a class="btn btn-outline-info btn-sm" href="#" style="padding:0px 1px; color:#201a1a;">
                               <i class="fas fa-trash"></i> Delete
                             </a>
                           </td>
@@ -104,8 +98,8 @@
     </section>
     <!-- /.content -->
   </div>
-  {% include 'pages/mileage/addMileage.html' %}
-  {% include 'pages/mileage/editMileage.html' %}  
+  {% include 'pages/fuel/addFuelReceived.html' %}
+  {% include 'pages/fuel/editFuel.html' %} 
 {% endblock content %}
 
 {% block extra_scripts %}
@@ -123,6 +117,7 @@
 <script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 <!-- Page specific script -->
-{% include 'pages/mileage/scripts.html' %}
+
+{% include 'pages/fuel/scripts.html' %}
 
 {% endblock extra_scripts %}

@@ -27,6 +27,13 @@ class VehicleUser(models.Model):
     def __str__(self):
         return self.name
     
+class SubProgramme(models.Model):
+    subProgramme_name = models.CharField(max_length=100)
+    
+class Programme(models.Model):
+    subProgramme = models.ForeignKey(SubProgramme, on_delete=models.CASCADE)
+    programme_name = models.CharField(max_length = 1000)
+    
 class Vehicle(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -72,10 +79,12 @@ class MileageRecord(models.Model):
 
 class FuelDisbursement(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    subProgramme= models.ForeignKey(SubProgramme, on_delete=models.CASCADE,null=True)
+    programme = models.ForeignKey(Programme, on_delete=models.CASCADE,null=True)
+    driver = models.ForeignKey(VehicleUser, on_delete=models.CASCADE,null=True)
     purpose = models.CharField(max_length=1000)
     amount_of_fuel_disbursed = models.DecimalField(max_digits=15, decimal_places=2)
     coupon_serial_number = models.CharField(max_length=50)
-    driver_name = models.CharField(max_length=100)
     issuer_name = models.CharField(max_length=100)
     transaction_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,4 +1,55 @@
 <script>
+
+    // Cascading dropdowns for subProgramme and Location
+    $(document).ready(function() {
+        // Populate subProgrammes dropdown
+        $.ajax({
+            url: '/api/v1/sub-programmes/',
+            dataType: 'json',
+            success: function(data) {
+                $.each(data.subProgrammes, function(index, subprogramme) {
+                    $('#subProgramme-dropdown').append('<option value="' + subprogramme.id + '">' + subprogramme.subProgramme_name + '</option>');
+                });
+            }
+        });
+
+        // Handle change event for subProgrammes dropdown
+        $('#subProgramme-dropdown').change(function() {
+            var subProgrammeId = $(this).val();
+            $('#programme-dropdown').empty();
+            if (subProgrammeId) {
+                $.ajax({
+                    url: '/api/v1/programmes/?subProgramme_id=' + subProgrammeId,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#programme-dropdown').append('<option value="" selected disabled>Select Programme</option>');
+                        $.each(data.programmes, function(index, programme) {
+                            $('#programme-dropdown').append('<option value="' + programme.id + '">' + programme.programme_name + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        //Fetch Vehicle user list
+        $.ajax({
+            url: 'http://127.0.0.1:8000/api/v1/vehicle-user-list/', // URL to fetch vehicles data from
+            method: 'GET',
+            success: function(data) {
+                // Populate select element with vehicles data
+                var options = '';
+                data.forEach(function(driver) {
+                    options += '<option value="' + driver.id + '">' + driver.name + '</option>';
+                });
+                $('#driver').append(options);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                showToast('error', 'Error', 'Failed to fetch vehicles data');
+            }
+        });
+    });
+
     $(document).ready(function() {
         // Fetch vehicles data from API and populate select element
         $.ajax({
@@ -26,10 +77,12 @@
             // Get form data
             var formData = {
                 vehicle_id: $('#vehicle').val(),  // Ensure the key matches backend expectation
+                subProgramme_id: $('#subProgramme-dropdown').val(),
+                programme_id: $('#programme-dropdown').val(),
                 purpose: $('#purpose').val(),
                 amount_of_fuel_disbursed: $('#amount_of_fuel_disbursed').val(),
                 coupon_serial_number: $('#coupon_serial_number').val(),
-                driver_name: $('#driver_name').val(), 
+                driver_id: $('#driver').val(), 
                 issuer_name: $('#issuer_name').val(),
                 transaction_date: $('#transaction_date').val(),
             };

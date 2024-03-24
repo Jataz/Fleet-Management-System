@@ -217,6 +217,9 @@
                     url: "/api/v1/maintenance-close/" + remarkId + "/",
                     method: "PUT",
                     data: formData,
+                    headers: {
+                        "X-CSRFToken": csrfToken // Include CSRF token in headers
+                    },
                     success: function(response) {
                         showToast('success', 'Success', 'Vehicle has successfully been Maintained');
                         $("#addRemarkModal").modal("hide");

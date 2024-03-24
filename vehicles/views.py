@@ -10,8 +10,8 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import FuelDisbursement, Location, Maintenance, MileageRecord, Province, Status, Vehicle, VehicleUser
-from .serializers import FuelDisbursementSerializer, LocationSerializer, MaintenanceCloseSerializer, MaintenanceSerializer, MileageRecordSerializer, ProvinceSerializer, StatusSerializer, VehicleSerializer, VehicleUserSerializer
+from .models import FuelDisbursement, Location, Maintenance, MileageRecord, Programme, Province, Status, SubProgramme, Vehicle, VehicleUser
+from .serializers import FuelDisbursementSerializer, LocationSerializer, MaintenanceCloseSerializer, MaintenanceSerializer, MileageRecordSerializer, ProgrammeSerializer, ProvinceSerializer, StatusSerializer, SubProgrammeSerializer, VehicleSerializer, VehicleUserSerializer
 
 
 #Cascading Dropdown
@@ -33,26 +33,20 @@ class StatusAPIView(APIView):
         status = Status.objects.all()
         serializer = StatusSerializer(status, many=True)
         return Response({'status': serializer.data})
+
+class SubProgrammeAPIView(APIView):
+    def get(self, request):
+        subProgrammes = SubProgramme.objects.all()
+        serializer = SubProgrammeSerializer(subProgrammes, many=True)
+        return Response({'subProgrammes': serializer.data})
+
+class ProgrammeAPIView(APIView):
+    def get(self, request):
+        subProgramme_id = request.GET.get('subProgramme_id')
+        programmes = Programme.objects.filter(subProgramme_id=subProgramme_id)
+        serializer = ProgrammeSerializer(programmes, many=True)
+        return Response({'programmes': serializer.data})   
     
-
-class ProvinceDetailView(APIView):
-    def get(self, request, province_id):
-        province = Province.objects.get(pk=province_id)
-        data = {'province_name': province.province_name}  # Assuming 'province_name' is the field to be returned
-        return Response(data)
-
-class LocationDetailView(APIView):
-    def get(self, request, location_id):
-        location = Location.objects.get(pk=location_id)
-        data = {'location_name': location.location_name}  # Assuming 'location_name' is the field to be returned
-        return Response(data)
-
-class StatusDetailView(APIView):
-    def get(self, request, status_id):
-        status = Status.objects.get(pk=status_id)
-        data = {'status_name': status.status_name}  # Assuming 'status_name' is the field to be returned
-        return Response(data)
-
 class VehicleUserList(generics.ListAPIView):
     queryset = VehicleUser.objects.all()
     serializer_class = VehicleUserSerializer   
@@ -107,10 +101,6 @@ def check_vehicle_exists(request):
 class MaintenanceList(generics.ListAPIView):
     queryset = Maintenance.objects.all()
     serializer_class = MaintenanceSerializer
-
-""" class MaintenanceCreate(generics.CreateAPIView):
-    queryset = Maintenance.objects.all()
-    serializer_class = MaintenanceSerializer   """ 
     
 class MaintenanceCreate(APIView):
     def post(self, request, *args, **kwargs):
@@ -202,11 +192,6 @@ class MaintenanceClose(APIView):
 class MileageRecordList(generics.ListAPIView):
     queryset = MileageRecord.objects.all()
     serializer_class = MileageRecordSerializer
-    
-""" class MileageRecordCreate(generics.CreateAPIView):
-    queryset = MileageRecord.objects.all()
-    serializer_class = MileageRecordSerializer  """
-
 class MileageRecordCreate(APIView):
     def post(self, request, *args, **kwargs):
         serializer = MileageRecordSerializer(data=request.data)
@@ -294,7 +279,8 @@ class UpdateFuelDisbursement(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    #Frontend Urls
+
+#Frontend Urls
 
 def index(request):
  
@@ -336,41 +322,25 @@ def mileage_list(request):
         # Handle the case where the request was not successful
         return render(request, 'error.html', {'message': 'Failed to fetch vehicles'})
 
-def fuel_list(request):
+def fuel_disbursed(request):
     # Make a GET request to fetch a list of vehicles
     response = requests.get('http://127.0.0.1:8000/api/v1/fuel-disbursements/')
     
     # Check if the request was successful
     if response.status_code == 200:
         fuel_disbursements= response.json()  # Extract JSON data from the response
-        return render(request, 'pages/fuel/fuel.html', {'fuel_disbursements': fuel_disbursements})
+        return render(request, 'pages/fuel/fuel_disbursed.html', {'fuel_disbursements': fuel_disbursements})
     else:
         # Handle the case where the request was not successful
         return render(request, 'error.html', {'message': 'Failed to fetch vehicles'})
-
-
-
-
-
-
-class MileageRecordAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = MileageRecordSerializer(data=request.data)
-        if serializer.is_valid():
-            mileage_record = serializer.save()
-            self.update_service_mileage(mileage_record.vehicle_id)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update_service_mileage(self, vehicle_id):
-        # Similar logic as provided in your function
-        latest_mileage_record = MileageRecord.objects.filter(vehicle_id=vehicle_id).order_by('-created_at').first()
-        
-        if latest_mileage_record:
-            mileage_reading = latest_mileage_record.mileage_reading
-            maintenance = Maintenance.objects.filter(vehicle_id=vehicle_id).order_by('-created_at').first()
-
-            if maintenance:
-                before_next_service_mileage = max(maintenance.next_service_mileage - mileage_reading, 0)
-                maintenance.before_next_service_mileage = before_next_service_mileage
-                maintenance.save()
+    
+def fuel_received(request):
+    
+    response = requests.get('http://127.0.0.1:8000/api/v1/fuel-disbursements/')
+    
+    if response.status_code == 200:
+        fuel_disbursements= response.json()  # Extract JSON data from the response
+        return render(request, 'pages/fuel/fuel_received.html', {'fuel_disbursements': fuel_disbursements})
+    else:
+        # Handle the case where the request was not successful
+        return render(request, 'error.html', {'message': 'Failed to fetch vehicles'})
