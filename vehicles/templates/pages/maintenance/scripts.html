@@ -27,9 +27,6 @@
             var formData = {
                 vehicle_id: $('#vehicle').val(),  // Ensure the key matches backend expectation
                 last_service_mileage: $('#last_service_mileage').val(),
-                next_service_date: $('#next_service_date').val(),
-                service_type: $('#service_type').val(),
-                cost_incurred: $('#cost_incurred').val()
             };
 
             // Send AJAX request to submit form data
@@ -282,3 +279,19 @@
     }
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+    
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+    
+        let dateString = `${year}-${month}-${day}`;
+    
+        document.getElementById('service_date').value = dateString;
+    });
+    
+</script>

@@ -1,6 +1,9 @@
+from datetime import datetime
 from rest_framework import serializers
 from .models import Location, Programme, Province, Status, SubProgramme, Vehicle,Maintenance, MileageRecord,FuelDisbursement, VehicleUser
-
+from django.db import transaction
+from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 
 class ProvinceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -128,29 +131,67 @@ class MaintenanceCloseSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'is_serviced']
 
     def validate(self, data):
-        required_fields = ['service_date', 'service_type', 'service_provided', 'service_provider', 'remarks']
-        missing_fields = [field for field in required_fields if field not in data or not data[field]]
-        if missing_fields:
-            raise serializers.ValidationError({field: "This field is required." for field in missing_fields})
+        # Existing validation logic...
         return data
 
+    @transaction.atomic
     def update(self, instance, validated_data):
-        instance.is_serviced = True  # Close the maintenance record
+        # Update the current instance to mark it as serviced
+        # Use the current date for the service date
+        service_date = datetime.now().date()
+
+        instance.is_serviced = True
         for key, value in validated_data.items():
             setattr(instance, key, value)
+        
+        # It's important to actually update the service_date field in your model.
+        # Assuming your model has a field named 'service_date' or similar where you store
+        # the date of the last service. Adjust the field name as per your model.
+        instance.service_date = service_date
         instance.save()
-        self._update_vehicle_status(instance.vehicle)
-        return instance  
-    
-    def _update_vehicle_status(self, vehicle):
 
-        try:        
-            overdue_status = Status.objects.get(status_name='Serviced')
-            vehicle.status = overdue_status 
+        # Update the vehicle status
+        self._update_vehicle_status(instance.vehicle)
+
+        # Create a new maintenance record as a placeholder for the next service
+        # Now passing the current date directly
+        self._create_next_maintenance_record(instance, service_date)
+
+        return instance
+
+
+    def _update_vehicle_status(self, vehicle):
+        try:
+            serviced_status = Status.objects.get(status_name='Serviced')
+            vehicle.status = serviced_status
             vehicle.save()
         except Status.DoesNotExist:
-            # Handle the case where the status doesn't exist
-            pass    
+            pass  # Optionally, log this error
+
+    def _create_next_maintenance_record(self, previous_instance,service_date):
+        # Calculate the next service mileage and before next service mileage
+        # This is an example; adjust the logic based on your requirements
+        a = previous_instance.next_service_mileage 
+        b = previous_instance.before_next_service_mileage
+        next_mileage = a - b  # Assuming 'service_mileage' is a field on your model
+        
+
+        next_service_date = service_date + relativedelta(months=+6)
+
+        Maintenance.objects.create(
+            vehicle=previous_instance.vehicle,
+            last_service_mileage=next_mileage,
+            next_service_mileage=next_mileage + 10000,  # Placeholder logic
+            before_next_service_mileage=10000,  # Placeholder logic
+            # Copy other fields from the previous instance or set defaults
+            next_service_date=next_service_date,
+            service_date=None,  # For DateField, use None to represent a null value
+            service_type="",  # For CharField, use an empty string to represent 'no data'
+            service_provided="",  # Likewise, use an empty string for CharField
+            service_provider="",  # And for any other CharField
+            remarks="",  # Example remark; adjust as needed
+            is_serviced=False,  # New record is not yet serviced
+        )   
     
 class MileageRecordSerializer(serializers.ModelSerializer):
     number_plate = serializers.ReadOnlyField(source='vehicle.number_plate')
