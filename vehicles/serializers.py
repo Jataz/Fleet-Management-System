@@ -131,7 +131,9 @@ class MaintenanceCloseSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'is_serviced']
 
     def validate(self, data):
-        # Existing validation logic...
+        
+        if self.instance.is_serviced:
+            raise serializers.ValidationError("This record has already been serviced")
         return data
 
     @transaction.atomic

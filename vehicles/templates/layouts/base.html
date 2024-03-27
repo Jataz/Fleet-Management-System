@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Management {% block title %}{% endblock title %}</title>
 
@@ -148,20 +149,7 @@
 
   </div>
 
-  <script>
-    $(function () {
-      $('#dataTable').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        "buttons": ["excel", "pdf", "print"],
-      }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-    });
-  </script>
+  
   
   {% include 'includes/scripts.html' %}
   {% block extra_scripts %}{% endblock extra_scripts %}

@@ -178,15 +178,19 @@ class MaintenanceClose(APIView):
         maintenance = self.get_object(pk)
         if isinstance(maintenance, Response):  # Check if get_object returned a 404 Response
             return maintenance
+        
+        # Create a mutable copy of the request.data
+        data = request.data.copy()
+        # Modify the mutable copy
+        data['is_serviced'] = True
 
-        # Set is_serviced=True directly before passing to serializer for validation and saving
-        request.data['is_serviced'] = True
-
-        serializer = MaintenanceCloseSerializer(maintenance, data=request.data, partial=True)  # Allow partial update
+        serializer = MaintenanceCloseSerializer(maintenance, data=data, partial=True)  # Allow partial update
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 #Mileage API
 class MileageRecordList(generics.ListAPIView):

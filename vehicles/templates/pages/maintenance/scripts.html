@@ -142,7 +142,42 @@
                         modal.find("#vehicle").val(response.vehicle.id); // Change this line to extract vehicle_id
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error fetching vehicles:", error);
+                        console.error('Error submitting maintenance data:', error);
+                    
+                        // Initialize a variable to hold your error messages
+                        let errorMessage = 'Failed to submit maintenance data. Please try again.';
+                    
+                        // Check if the xhr response has a JSON body
+                        if (xhr.responseJSON) {
+                            const responseErrors = xhr.responseJSON;
+                    
+                            // Initialize an array to collect error messages
+                            let errorMessages = [];
+                    
+                            // Iterate over the object and collect error messages
+                            Object.keys(responseErrors).forEach(function(key) {
+                                const value = responseErrors[key];
+                                // Assuming each key's value is an array of error messages
+                                // Adjust if your error structure is different
+                                if (Array.isArray(value)) {
+                                    value.forEach(function(message) {
+                                        errorMessages.push(`${key}: ${message}`);
+                                    });
+                                } else {
+                                    // If the value is not an array, directly add it to the messages
+                                    errorMessages.push(`${key}: ${value}`);
+                                }
+                            });
+                    
+                            // Join all error messages into a single string, separated by semicolons
+                            if (errorMessages.length > 0) {
+                                errorMessage = errorMessages.join('; ');
+                            }
+                        }
+                    
+                        // Display the error message
+                        // Ensure your showToast function or equivalent can handle a plain text string
+                        showToast('error', 'Error', errorMessage);
                     }
                 });
             },
@@ -176,8 +211,42 @@
                     }, 3000); // Delay for 3 seconds (adjust as needed)
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error updating maintenance record:", error);
-                    showToast('error', 'Error', 'An error occurred while updating the maintenance record');
+                    console.error('Error submitting maintenance data:', error);
+                
+                    // Initialize a variable to hold your error messages
+                    let errorMessage = 'Failed to submit maintenance data. Please try again.';
+                
+                    // Check if the xhr response has a JSON body
+                    if (xhr.responseJSON) {
+                        const responseErrors = xhr.responseJSON;
+                
+                        // Initialize an array to collect error messages
+                        let errorMessages = [];
+                
+                        // Iterate over the object and collect error messages
+                        Object.keys(responseErrors).forEach(function(key) {
+                            const value = responseErrors[key];
+                            // Assuming each key's value is an array of error messages
+                            // Adjust if your error structure is different
+                            if (Array.isArray(value)) {
+                                value.forEach(function(message) {
+                                    errorMessages.push(`${key}: ${message}`);
+                                });
+                            } else {
+                                // If the value is not an array, directly add it to the messages
+                                errorMessages.push(`${key}: ${value}`);
+                            }
+                        });
+                
+                        // Join all error messages into a single string, separated by semicolons
+                        if (errorMessages.length > 0) {
+                            errorMessage = errorMessages.join('; ');
+                        }
+                    }
+                
+                    // Display the error message
+                    // Ensure your showToast function or equivalent can handle a plain text string
+                    showToast('error', 'Error', errorMessage);
                 }
             });
         });
@@ -185,53 +254,92 @@
 
     // JavaScript for updating vehicles
     $(document).ready(function() {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');// Assuming CSRF token is available in the template
+    
         $(document).on("show.bs.modal", ".modal", function(event) {
-            var button = $(event.relatedTarget);
-            var remarkId = button.data("maintenance-id");
-
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var remarkId = button.data("maintenance-id"); // Extract info from data-* attributes
+    
             $.ajax({
                 url: "/api/v1/maintenance-close/" + remarkId + "/",
                 method: "GET",
                 success: function(response) {
-                    var modal = $(event.target);
+                    var modal = $(this); // Use $(this) to refer to the modal within the success function
                     modal.find("#number_plate").val(response.number_plate);
-                    modal.find("#vehicle_type").val(response.vehicle_type);
-                    modal.find("#province-dropdown").val(response.province_id); // Assuming 'province' is the ID of province
-                    modal.find("#province-dropdown").trigger('change'); // Trigger change event to populate location dropdown
-                    modal.find("#status").val(response.status_id);
-                    modal.find("#classis_number").val(response.classis_number);
-                    modal.find("#engine_number").val(response.engine_number);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching Maintenance details:", error);
                 }
             });
-
-            $("#addRemarkForm").off().submit(function(event) {
+    
+            $("#addRemarkForm").off().on("submit", function(event) { // Corrected to use .on("submit") after .off()
                 event.preventDefault(); // Prevent default form submission
-                var formData = $(this).serialize();
+
+                var formData = {
+                    'service_type': $("#service_type").val(),
+                    'service_provided': $("#service_provided").val(),
+                    'service_provider': $("#service_provider").val(),
+                    'remarks': $("#remarks").val(),
+                    'csrfmiddlewaretoken': csrfToken // Include the CSRF token
+                };
+    
                 $.ajax({
                     url: "/api/v1/maintenance-close/" + remarkId + "/",
                     method: "PUT",
                     data: formData,
-                    headers: {
-                        "X-CSRFToken": csrfToken // Include CSRF token in headers
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrfToken); // Correct way to include CSRF token in headers
                     },
                     success: function(response) {
-                        showToast('success', 'Success', 'Vehicle has successfully been Maintained');
-                        $("#addRemarkModal").modal("hide");
+                        showToast('success', 'Success', 'Vehicle has successfully been maintained.');
+                        $(".modal").modal("hide"); // Correctly references the modal to hide
                         setTimeout(function() {
                             window.location.reload();
-                        }, 3000); // Delay for 5 seconds (adjust as needed)
+                        }, 3000); // Corrected comment to match actual delay
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error updating vehicle:", error);
-                        showToast('error', 'Error', 'An error occurred while updating the vehicle');
+                        console.error('Error submitting maintenance data:', error);
+                    
+                        // Initialize a variable to hold your error messages
+                        let errorMessage = 'Failed to submit maintenance data. Please try again.';
+                    
+                        // Check if the xhr response has a JSON body
+                        if (xhr.responseJSON) {
+                            const responseErrors = xhr.responseJSON;
+                    
+                            // Initialize an array to collect error messages
+                            let errorMessages = [];
+                    
+                            // Iterate over the object and collect error messages
+                            Object.keys(responseErrors).forEach(function(key) {
+                                const value = responseErrors[key];
+                                // Assuming each key's value is an array of error messages
+                                // Adjust if your error structure is different
+                                if (Array.isArray(value)) {
+                                    value.forEach(function(message) {
+                                        errorMessages.push(`${key}: ${message}`);
+                                    });
+                                } else {
+                                    // If the value is not an array, directly add it to the messages
+                                    errorMessages.push(`${key}: ${value}`);
+                                }
+                            });
+                    
+                            // Join all error messages into a single string, separated by semicolons
+                            if (errorMessages.length > 0) {
+                                errorMessage = errorMessages.join('; ');
+                            }
+                        }
+                    
+                        // Display the error message
+                        // Ensure your showToast function or equivalent can handle a plain text string
+                        showToast('error', 'Error', errorMessage);
                     }
                 });
             });
         });
     });
+    
 
     
     
@@ -279,19 +387,3 @@
     }
 </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-    
-        month = month < 10 ? '0' + month : month;
-        day = day < 10 ? '0' + day : day;
-    
-        let dateString = `${year}-${month}-${day}`;
-    
-        document.getElementById('service_date').value = dateString;
-    });
-    
-</script>
