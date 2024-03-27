@@ -282,6 +282,8 @@
                     'remarks': $("#remarks").val(),
                     'csrfmiddlewaretoken': csrfToken // Include the CSRF token
                 };
+
+                var formData = $(this).serializeArray();
     
                 $.ajax({
                     url: "/api/v1/maintenance-close/" + remarkId + "/",
