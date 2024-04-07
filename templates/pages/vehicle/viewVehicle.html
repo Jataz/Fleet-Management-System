@@ -1,0 +1,93 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="viewVehicleModal" tabindex="-1" role="dialog" aria-labelledby="viewVehicleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="viewVehicleModalLabel">Vehicle Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Number Plate: <span id="vehicle-number-plate"></span></p>
+                <p>Status: <span id="vehicle-status"></span></p>
+                    <div class="modal-footer">
+                        <a class="btn btn-outline-info btn-sm open-maintenance-modal" href="#" data-toggle="modal" data-target="#maintenanceModal" data-vehicle-id="{{ vehicle.id }}" style="color:#1f1d1d;" >
+                            <i class="fas fa-eye"></i> Maintenance Records
+                        </a>
+                        <a class="btn btn-outline-info btn-sm open-mileage-modal" href="#" data-toggle="modal" data-target="#mileageModal" data-vehicle-id="{{ vehicle.id }}" style="color:#1f1d1d;" >
+                            <i class="fas fa-eye"></i> Mileage Records
+                        </a>
+                        <button type="button" class="btn btn-outline-info btn-sm " data-dismiss="modal" style="color:#1f1d1d;" >Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" id="maintenanceModal" tabindex="-1" role="dialog" aria-labelledby="maintenanceModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-right">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="maintenanceModalLabel">Maintenance Records</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="maintenanceTable" class="table table-striped dt-responsive nowrap table-sm" style="font-size:15px">
+                    <thead style="background-color: lightblue;">
+                      <tr>
+                        <th>No.</th>
+                        <th>Vehicle</th>
+                        <th>Last Service Mileage</th>
+                        <th>Before Next Service Mileage</th>
+                        <th>Next Mileage Service</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-info btn-sm" data-dismiss="modal" style="color:#1f1d1d;" >Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" id="mileageModal" tabindex="-1" role="dialog" aria-labelledby="mileageModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-right">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mileageModalLabel">Mileage Records</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="mileageTable" class="table table-striped dt-responsive nowrap table-sm" style="font-size:15px">
+                    <thead style="background-color: lightblue;">
+                      <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Reading</th>
+                        <th>Driver</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-info btn-sm" data-dismiss="modal" style="color:#1f1d1d;" >Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

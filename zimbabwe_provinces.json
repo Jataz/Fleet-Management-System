@@ -1,0 +1,204 @@
+[
+  {
+    "model": "vehicles.province",
+    "pk": 1,
+    "fields": {
+      "province_name": "Head Office"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 1,
+    "fields": {
+      "location_name": "Head Office",
+      "province_id": 1
+    }
+  },
+  {
+    "model": "vehicles.province",
+    "pk": 2,
+    "fields": {
+      "province_name": "Harare"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 2,
+    "fields": {
+      "location_name": "Provincial Office",
+      "province_id": 2
+    }
+  },
+  {
+    "model": "vehicles.province",
+    "pk": 3,
+    "fields": {
+      "province_name": "Bulawayo"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 3,
+    "fields": {
+      "location_name": "Provincial Office",
+      "province_id": 3
+    }
+  },
+  {
+    "model": "vehicles.province",
+    "pk": 4,
+    "fields": {
+      "province_name": "Mashonaland West"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 4,
+    "fields": {
+      "location_name": "Makonde",
+      "province_id": 4
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 5,
+    "fields": {
+      "location_name": "Karoi",
+      "province_id": 4
+    }
+  },
+  {
+    "model": "vehicles.province",
+    "pk": 5,
+    "fields": {
+      "province_name": "Masvingo"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 6,
+    "fields": {
+      "location_name": "Bikita District",
+      "province_id": 5
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 7,
+    "fields": {
+      "location_name": "Chiredzi District",
+      "province_id": 5
+    }
+  },
+
+  {
+    "model": "vehicles.province",
+    "pk": 6,
+    "fields": {
+      "province_name": "Matabeleland South"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 8,
+    "fields": {
+      "location_name": "Umzingwane District",
+      "province_id": 6
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 9,
+    "fields": {
+      "location_name": "Matobo District",
+      "province_id": 6
+    }
+  },
+
+  {
+    "model": "vehicles.province",
+    "pk": 7,
+    "fields": {
+      "province_name": "Midlands"
+    }
+  },
+  {
+    "model": "vehicles.location",
+    "pk": 10,
+    "fields": {
+      "location_name": "Gweru",
+      "province_id": 7
+    }
+  },
+  {
+    "model": "vehicles.province",
+    "pk": 8,
+    "fields": {
+        "province_name": "Matabeleland North"
+    }
+},
+{
+    "model": "vehicles.location",
+    "pk": 11,
+    "fields": {
+        "location_name": "Bubi",
+        "province_id": 8
+    }
+},
+{
+    "model": "vehicles.location",
+    "pk": 12,
+    "fields": {
+        "location_name": "Hwange",
+        "province_id": 8
+    }
+},
+
+{
+    "model": "vehicles.province",
+    "pk": 9,
+    "fields": {
+        "province_name": "Mashonaland East"
+    }
+},
+{
+    "model": "vehicles.location",
+    "pk": 13,
+    "fields": {
+        "location_name": "Chikomba",
+        "province_id": 9
+    }
+},
+
+{
+    "model": "vehicles.province",
+    "pk": 10,
+    "fields": {
+        "province_name": "Manicaland"
+    }
+},
+{
+    "model": "vehicles.location",
+    "pk": 14,
+    "fields": {
+        "location_name": "Makoni",
+        "province_id": 10
+    }
+},
+
+{
+    "model": "vehicles.province",
+    "pk": 11,
+    "fields": {
+        "province_name": "Mashonaland Central"
+    }
+},
+{
+    "model": "vehicles.location",
+    "pk": 15,
+    "fields": {
+        "location_name": "Centenary",
+        "province_id": 11
+    }
+}
+]

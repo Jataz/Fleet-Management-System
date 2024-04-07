@@ -1,0 +1,347 @@
+<script>
+    
+    $(document).ready(function() {
+        // Fetch vehicles data from API and populate select element
+        $.ajax({
+            url: '/api/v1/vehicles/', // URL to fetch vehicles data from
+            method: 'GET',
+            success: function(data) {
+                // Populate select element with vehicles data
+                var options = '';
+                data.forEach(function(vehicle) {
+                    options += '<option value="' + vehicle.id + '">' + vehicle.number_plate + '</option>';
+                });
+                $('#vehicle').append(options);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error submitting maintenance data:', error);
+            
+                // Initialize a variable to hold your error messages
+                let errorMessage = 'Failed to submit maintenance data. Please try again.';
+            
+                // Check if the xhr response has a JSON body
+                if (xhr.responseJSON) {
+                    const responseErrors = xhr.responseJSON;
+            
+                    // Initialize an array to collect error messages
+                    let errorMessages = [];
+            
+                    // Iterate over the object and collect error messages
+                    Object.keys(responseErrors).forEach(function(key) {
+                        const value = responseErrors[key];
+                        // Assuming each key's value is an array of error messages
+                        // Adjust if your error structure is different
+                        if (Array.isArray(value)) {
+                            value.forEach(function(message) {
+                                errorMessages.push(`${key}: ${message}`);
+                            });
+                        } else {
+                            // If the value is not an array, directly add it to the messages
+                            errorMessages.push(`${key}: ${value}`);
+                        }
+                    });
+            
+                    // Join all error messages into a single string, separated by semicolons
+                    if (errorMessages.length > 0) {
+                        errorMessage = errorMessages.join('; ');
+                    }
+                }
+            
+                // Display the error message
+                // Ensure your showToast function or equivalent can handle a plain text string
+                showToast('error', 'Error', errorMessage);
+            }
+        });
+
+        //Fetch Vehicle user list
+        $.ajax({
+            url: '/api/v1/vehicle-user-list/', // URL to fetch vehicles data from
+            method: 'GET',
+            success: function(data) {
+                // Populate select element with vehicles data
+                var options = '';
+                data.forEach(function(vehicle_user) {
+                    options += '<option value="' + vehicle_user.id + '">' + vehicle_user.name + '</option>';
+                });
+                $('#vehicle_user').append(options);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                showToast('error', 'Error', 'Failed to fetch vehicles data');
+            }
+        });
+
+        // Add event listener for form submission
+        $('#addMileageForm').submit(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Get form data
+            var formData = {
+                vehicle_id: $('#vehicle').val(),  // Ensure the key matches backend expectation
+                mileage_reading: $('#mileage_reading').val(),
+            };
+
+            // Send AJAX request to submit form data
+            $.ajax({
+                url: '/api/v1/mileage-create/', // URL to submit Mileage data
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken") // Get CSRF token from cookie
+                },
+                success: function(response) {
+                    showToast('success', 'Success', 'Mileage Record added successfully');
+                    $("#addMilleagModal").modal("hide");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Delay for 3 seconds (adjust as needed)
+                },
+                
+                error: function(xhr, status, error) {
+                    console.error('Error submitting maintenance data:', error);
+                
+                    // Initialize a variable to hold your error messages
+                    let errorMessage = 'Failed to submit maintenance data. Please try again.';
+                
+                    // Check if the xhr response has a JSON body
+                    if (xhr.responseJSON) {
+                        const responseErrors = xhr.responseJSON;
+                
+                        // Initialize an array to collect error messages
+                        let errorMessages = [];
+                
+                        // Iterate over the object and collect error messages
+                        Object.keys(responseErrors).forEach(function(key) {
+                            const value = responseErrors[key];
+                            // Assuming each key's value is an array of error messages
+                            // Adjust if your error structure is different
+                            if (Array.isArray(value)) {
+                                value.forEach(function(message) {
+                                    errorMessages.push(`${key}: ${message}`);
+                                });
+                            } else {
+                                // If the value is not an array, directly add it to the messages
+                                errorMessages.push(`${key}: ${value}`);
+                            }
+                        });
+                
+                        // Join all error messages into a single string, separated by semicolons
+                        if (errorMessages.length > 0) {
+                            errorMessage = errorMessages.join('; ');
+                        }
+                    }
+                
+                    // Display the error message
+                    // Ensure your showToast function or equivalent can handle a plain text string
+                    showToast('error', 'Error', errorMessage);
+                }
+            });
+        });
+
+        // Function to get the value of a cookie by name
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if cookie name matches the specified name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        // Extract and return the cookie value
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+
+    $(document).on("show.bs.modal", "#editMileageModal", function(event) {
+        var button = $(event.relatedTarget);
+        var mileageId = button.data("mileage-id");
+    
+        // Fetch Mileage record details for editing
+        $.ajax({
+            url: "/api/v1/mileage-update/" + mileageId + "/",
+            method: "GET",
+            success: function(response) {
+                var modal = $(event.target);
+                modal.find("#vehicle_id").val(response.vehicle_id); // This line should be changed
+                modal.find("#mileage_reading").val(response.mileage_reading);
+    
+                // Populate select options for vehicles
+                $.ajax({
+                    url: "/api/v1/vehicles/",
+                    method: "GET",
+                    success: function(vehicles) {
+                        var select = modal.find("#vehicle");
+                        select.empty();
+                        vehicles.forEach(function(vehicle) {
+                            var option = $("<option></option>")
+                                .attr("value", vehicle.id)
+                                .text(vehicle.number_plate);
+                            select.append(option);
+                        });
+
+                        // Set selected option for the maintenance record's vehicle
+                        modal.find("#vehicle").val(response.vehicle.id); // Change this line to extract vehicle_id
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching vehicles:", error);
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error submitting maintenance data:', error);
+            
+                // Initialize a variable to hold your error messages
+                let errorMessage = 'Failed to submit maintenance data. Please try again.';
+            
+                // Check if the xhr response has a JSON body
+                if (xhr.responseJSON) {
+                    const responseErrors = xhr.responseJSON;
+            
+                    // Initialize an array to collect error messages
+                    let errorMessages = [];
+            
+                    // Iterate over the object and collect error messages
+                    Object.keys(responseErrors).forEach(function(key) {
+                        const value = responseErrors[key];
+                        // Assuming each key's value is an array of error messages
+                        // Adjust if your error structure is different
+                        if (Array.isArray(value)) {
+                            value.forEach(function(message) {
+                                errorMessages.push(`${key}: ${message}`);
+                            });
+                        } else {
+                            // If the value is not an array, directly add it to the messages
+                            errorMessages.push(`${key}: ${value}`);
+                        }
+                    });
+            
+                    // Join all error messages into a single string, separated by semicolons
+                    if (errorMessages.length > 0) {
+                        errorMessage = errorMessages.join('; ');
+                    }
+                }
+            
+                // Display the error message
+                // Ensure your showToast function or equivalent can handle a plain text string
+                showToast('error', 'Error', errorMessage);
+            }
+        });
+    
+    
+        // Submit form data to update the Mileage record
+        $("#editMileageForm").submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var formData = $(this).serialize();
+            var csrfToken = getCookie("csrftoken"); // Get CSRF token
+    
+            // Modify the formData string to replace 'vehicle' with 'vehicle_id'
+            formData = formData.replace(/vehicle=/, 'vehicle_id=');
+            
+            $.ajax({
+                url: "/api/v1/mileage-update/" + mileageId + "/",
+                method: "PUT",
+                data: formData,
+                headers: {
+                    "X-CSRFToken": csrfToken // Include CSRF token in headers
+                },
+                success: function(response) {
+                    showToast('success', 'Success', 'Mileage Record updated successfully');
+                    $("#editMileageModal").modal("hide");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Delay for 3 seconds (adjust as needed)
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error Updating Mileage data:', error);
+                
+                    // Initialize a variable to hold your error messages
+                    let errorMessage = 'Failed to Update data. Please try again.';
+                
+                    // Check if the xhr response has a JSON body
+                    if (xhr.responseJSON) {
+                        const responseErrors = xhr.responseJSON;
+                
+                        // Initialize an array to collect error messages
+                        let errorMessages = [];
+                
+                        // Iterate over the object and collect error messages
+                        Object.keys(responseErrors).forEach(function(key) {
+                            const value = responseErrors[key];
+                            // Assuming each key's value is an array of error messages
+                            // Adjust if your error structure is different
+                            if (Array.isArray(value)) {
+                                value.forEach(function(message) {
+                                    errorMessages.push(`${key}: ${message}`);
+                                });
+                            } else {
+                                // If the value is not an array, directly add it to the messages
+                                errorMessages.push(`${key}: ${value}`);
+                            }
+                        });
+                
+                        // Join all error messages into a single string, separated by semicolons
+                        if (errorMessages.length > 0) {
+                            errorMessage = errorMessages.join('; ');
+                        }
+                    }
+                
+                    // Display the error message
+                    // Ensure your showToast function or equivalent can handle a plain text string
+                    showToast('error', 'Error', errorMessage);
+                }
+            });
+        });
+    });
+    
+    
+    // Function to get the value of a cookie by name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if cookie name matches the specified name
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    // Extract and return the cookie value
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    // Function to show toast notifications
+    function showToast(type, title, message) {
+        $('.toast').toast('hide'); // Hide any existing toast alerts
+
+        // Construct the toast HTML with appropriate class based on type
+        var toastHTML = `
+            <div class="toast ${type}" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="${type === 'success' ? '5000' : '3000'}">
+                <div class="toast-header">
+                    <strong class="mr-auto">${title}</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>`;
+        
+        // Append the toast HTML to the container
+        $('#toastContainer').append(toastHTML);
+        
+        // Show the toast
+        $('.toast').toast('show');
+    }
+</script>
+

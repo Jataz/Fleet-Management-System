@@ -1,0 +1,153 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}| Vehicles {% endblock title %}
+{% block extrastyle %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+{% endblock extrastyle %}
+{% block bodyclass %} hold-transition sidebar-mini {% endblock bodyclass %}
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Vehicles</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h1 class="card-title">Vehicles</h1>
+                <div class="d-flex justify-content-end">
+                  
+                  {% if perms.vehicles.add_vehicle  %}
+                  <a class="btn btn-success btn-sm" href="#" data-toggle="modal" data-target="#addVehicleModal"><i class="fas fa-plus-circle"></i> Add Vehicle </a>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="dataTable" class="table table-striped dt-responsive nowrap table-sm" style="font-size:15px">
+                  <thead style="background-color: lightblue;">
+                    <tr>
+                      <th>No.</th>
+                      <th>Vehicle Number</th>
+                      <th>Vehicle Type</th>
+                      <th>Province</th>
+                      <th>Location</th>
+                      <th>Status</th>
+                      {% if perms.vehicles.vehicle_actions  %}
+                      <th>Actions</th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for vehicle in vehicles %}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ vehicle.number_plate }}</td>
+                          <td>{{ vehicle.vehicle_type }}</td>
+                          <td>{{ vehicle.province_name }}</td>
+                          <td>{{ vehicle.location_name }}</td>
+                          <td>
+                            {% if vehicle.status_name == 'Serviced' %}
+                                <span class="badge badge-success">{{ vehicle.status_name }}</span>
+                            {% elif vehicle.status_name == 'Due' %}
+                                <span class="badge badge-warning">{{ vehicle.status_name }}</span>
+                            {% elif vehicle.status_name == 'Overdue' %}
+                                <span class="badge badge-danger">{{ vehicle.status_name }}</span>
+                            {% elif vehicle.status_name == 'Non Runner' %}
+                                <span class="badge badge-secondary">{{ vehicle.status_name }}</span>
+                            {% endif %}
+                          </td>
+                         
+                           {% if perms.vehicles.vehicle_actions  %}
+                          <td class="project-actions">
+                            {% if perms.vehicles.views_vehicle  %}
+                            <a class="btn btn-outline-info btn-sm view-details" href="#" data-toggle="modal" data-target="#viewVehicleModal" data-vehicle-id="{{ vehicle.id }}" style="padding: 0px 1px; font-size: 13px; color: #232121;">
+                              <i class="fas fa-eye"></i> View
+                            </a>
+                            {% endif %}
+                            {% if perms.vehicles.change_vehicle  %}
+                            <a class="btn btn-outline-info btn-sm edit-vehicle-link" href="#" data-toggle="modal" data-target="#editVehicleModal" data-vehicle-id="{{ vehicle.id }}" style="padding: 0px 1px; font-size: 13px; color: #232121;">
+                              <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            {% endif %}
+                            {% if perms.vehicles.delete_vehicle  %}
+                            <a class="btn btn-outline-danger btn-sm" href="#" style="padding:0px 1px; color:#1f1d1d;">
+                              <i class="fas fa-trash"></i> Delete
+                            </a>
+                            {% endif %}
+                          </td>
+                          {% endif %}
+                        </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  {% include 'pages/vehicle/addVehicle.html' %}
+  {% include 'pages/vehicle/editVehicle.html' %}
+  {% include 'pages/vehicle/viewVehicle.html' %}
+{% endblock content %}
+
+
+{% block extra_scripts %}
+<!-- DataTables  & Plugins -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- Page specific script -->
+
+{% include 'pages/vehicle/scripts.html' %}
+  
+{% endblock extra_scripts %}

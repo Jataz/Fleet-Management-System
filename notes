@@ -1,0 +1,14 @@
+Add these permissions to the admin
+*vehicle_list 
+*maintenance_list 
+*mileage_list
+*fuel_list
+*fuel_received_list
+*fuel_disbursed_list  
+*add_maintenance_remark  
+
+*vehicle_actions
+*mileage_actions
+*maintenance_actions
+*fuel_received_actions
+*fuel_disbursed_actions

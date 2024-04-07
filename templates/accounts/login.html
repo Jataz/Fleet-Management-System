@@ -1,0 +1,52 @@
+{% extends 'layouts/auth_base.html' %}
+
+{% block title %} Log in {% endblock title %}
+
+{% block bodyclass %} login-page {% endblock bodyclass %}
+
+{% block content %}
+<div class="login-box">
+  <div class="login-logo">
+    <a href="/"><b>MWAC</b>SMED</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in</p>
+
+      <form method="post" autocomplete="off" >
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors  %}
+            <small class="text-danger mb-3">{{ error }}</small>
+          {% endfor %}
+        {% endif %}
+
+        {% for field in form %}
+        <div class="input-group mb-3">
+          {{field}}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas {% if field.name == 'username' %} fa-user {% else %}  fa-lock {% endif %}"></span>
+            </div>
+          </div>
+        </div>
+        <small class="text-danger">{{ field.errors }}</small>
+        {% endfor %}
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-outline-primary btn-sm btn-block">Login</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+  </div>
+</div>
+
+{% endblock %}

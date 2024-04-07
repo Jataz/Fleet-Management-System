@@ -1,0 +1,75 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="addRemarkModal" tabindex="-1" role="dialog" aria-labelledby="addRemarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRemarkModalLabel">Clear Service</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addRemarkForm" autocomplete="off" style="font-size: 15px">
+                    <div class="row">
+                      <div class="mb-3 col-md-6">
+                        <label for="service_type">Service Type</label>
+                        <select class="form-control select2" id="service_type" name="service_type" required>
+                          <option selected="selected" disabled="disabled" value="">Select Service Type</option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C">C</option>
+                        </select>
+                      </div>
+                  
+                      <div class="mb-3 col-md-6">
+                        <div class="form-group">
+                          <label for="service_provided">Other Services Provided</label>
+                          <input type="text" class="form-control" id="service_provided" name="service_provided" placeholder="Enter Service Provided" required>
+                        </div>
+                      </div>
+                    
+                  
+                      <div class="mb-3 col-md-6">
+                        <label for="service_provider">Service Provider</label>
+                        <input type="text" class="form-control" id="service_provider" name="service_provider" placeholder="Enter Service Provider"  required>
+                      </div>
+                  
+                      <div class="mb-3 col-md-12">
+                        <label for="remarks " class="form-label">Remarks </label>
+                        <textarea name="remarks" id="remarks" class="form-control"  placeholder="Enter remarks for the Vehicle" rows="2"  ></textarea>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-outline-primary btn-sm" id="submitMaintenanceBtn">Submit</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; z-index: 9999;"></div>
+    <!-- Popup -->
+    <div class="modal fade" id="numberPlateExistsModal" tabindex="-1" role="dialog" aria-labelledby="numberPlateExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="numberPlateExistsModalLabel">Number Plate Already Exists</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>The number plate you entered already exists. Please enter a different number plate.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    

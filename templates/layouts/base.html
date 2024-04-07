@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta id="apiBaseUrl" data-base-url="{{ API_BASE_URL }}">
+
+  <title>Management {% block title %}{% endblock title %}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+
+  <style>
+
+      .toast.error {
+          background-color: #eee8e8; /* Red background for error */
+      }
+    
+      .toast.success {
+          background-color: #ffffff; /* Green background for success */
+      }
+    
+      .toast.danger {
+          background-color: #ededed; /* Yellow background for danger */
+      }
+    
+      /* Error Toast Header */
+    .toast.error .toast-header {
+      background-color: #dc3545; /* Red background */
+      color: #ffffff; /* White text color */
+    }
+    
+    /* Success Toast Header */
+    .toast.success .toast-header {
+      background-color: #28a745; /* Green background */
+      color: #ffffff; /* White text color */
+    }
+    
+    /* Danger Toast Header */
+    .toast.danger .toast-header {
+      background-color: #ffc107; /* Yellow background */
+      color: #212529; /* Dark text color for contrast */
+    }
+    
+        .card-header {
+          background-color: aliceblue;
+        }
+
+        .card-header .card-title {
+            text-transform: uppercase;
+          
+        }
+
+        .modal-header {
+          background-color: aliceblue;
+        }
+
+        .modal-header .modal-title {
+          text-transform: uppercase;
+          font-size: 18px;
+        }
+
+        .form-control {
+          font-size: 14px; /* Add font size as needed */
+      }
+
+        ::placeholder {
+          font-size: 13px; /* Adjust the font size as needed */
+      }
+
+      .select2 {
+          font-size: 14px; /* Add font size as needed */
+      }
+
+      /* Style the option elements */
+      .select2 option {
+          font-size: 13px; /* Adjust the font size of options as needed */
+          color: #333; /* Adjust the color of options as needed */
+          background-color: #fff; /* Adjust the background color of options as needed */
+      }
+
+      .navbar-center {
+        text-align: center; /* Ensures text is centered */
+        flex-grow: 1; /* Allows the div to expand as needed */
+    }
+    
+    .navbar-center span {
+        display: block; /* Makes the span behave like a block element */
+        white-space: nowrap; /* Prevents the text from wrapping */
+        overflow: hidden; /* Hide the overflow */
+        text-overflow: ellipsis; /* Add an ellipsis if the text is too long */
+    }
+
+    .modal-dialog.modal-dialog-right {
+      margin-left: auto;
+      margin-right: 0;
+  }
+    
+    /* Responsive font sizes */
+    @media (max-width: 992px) { /* For medium devices like tablets */
+        .navbar-center span {
+            font-size: 10px;
+            white-space: normal; /* Allows text wrapping on smaller devices */
+        }
+    }
+    
+    @media (max-width: 768px) { /* For small devices like phones */
+        .navbar-center span {
+            font-size: 10px;
+        }
+    }
+    
+  </style>
+
+  {% block extrastyle %}{% endblock extrastyle %}
+</head>
+<body  class="{% block bodyclass %}{% endblock bodyclass %}">
+
+  <div class="wrapper">
+
+    {% block header %}
+      {% include 'includes/navigation-light.html' %}
+    {% endblock header %}
+
+    {% block sidebar %}
+      {% include 'includes/sidebar.html' %}
+    {% endblock sidebar %}
+    
+    {% block content %}{% endblock content %}
+
+    {% block footer %}
+      {% include 'includes/footer.html' %}
+    {% endblock footer %}
+
+    {% block control_sidebar %}
+      
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+    
+    {% endblock control_sidebar %}
+
+  </div>
+
+  
+  
+  {% include 'includes/scripts.html' %}
+  {% block extra_scripts %}{% endblock extra_scripts %}
+
+
+</body>
+</html>

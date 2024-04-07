@@ -1,0 +1,48 @@
+[
+    {
+      "model": "vehicles.subProgramme",
+      "pk": 1,
+      "fields": {
+        "subProgramme": "Programme 1"
+      }
+    },
+    {
+      "model": "vehicles.programme",
+      "pk": 1,
+      "fields": {
+        "programme_name": "Head Office",
+        "province_id": 1
+      }
+    },
+    {
+      "model": "vehicles.province",
+      "pk": 2,
+      "fields": {
+        "province_name": "Harare"
+      }
+    },
+    {
+      "model": "vehicles.location",
+      "pk": 2,
+      "fields": {
+        "location_name": "Provincial Office",
+        "province_id": 2
+      }
+    },
+    {
+      "model": "vehicles.province",
+      "pk": 3,
+      "fields": {
+        "province_name": "Bulawayo"
+      }
+    },
+    {
+      "model": "vehicles.location",
+      "pk": 3,
+      "fields": {
+        "location_name": "Provincial Office",
+        "province_id": 3
+      }
+    }
+  ]
+  

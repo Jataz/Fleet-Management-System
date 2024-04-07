@@ -1,0 +1,115 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="addFuelModal" tabindex="-1" role="dialog" aria-labelledby="addFuelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addFuelModalLabel">Add Fuel Disbursement</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addFuelForm" autocomplete="off" style="font-size:15px">
+                   <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle">Sub Programme</label>
+                                <select class="form-control" id="subProgramme-dropdown" name="subprogramme" required>
+                                    <option value="" selected disabled>Select Sub Programme</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle">Programme</label>
+                                <select class="form-control" id="programme-dropdown" name="programme" required>
+                                    <option value="" selected disabled>Select Programme</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle">Vehicle</label>
+                                <select class="form-control" id="vehicle" name="vehicle" required>
+                                    <option value="" selected disabled>Select Vehicle</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="issuer_name ">Issuer Name</label>
+                                <input type="text" class="form-control"  id="issuer_name" name="issuer_name " placeholder="Enter Issuer Name" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="driver_name ">Driver Name</label>
+                                <select class="form-control" id="driver"  required>
+                                    <option value="" selected disabled>Select Driver</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="transaction_date">Disbursement Date</label>
+                                <input type="date" class="form-control" id="transaction_date" name="transaction_date" placeholder="Select Disbursement Date" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="amount_of_fuel_disbursed">Fuel Disbursed</label>
+                                <input type="number" class="form-control" id="amount_of_fuel_disbursed" name="amount_of_fuel_disbursed" placeholder="Enter Fuel Disbursed" step="0.01" required>
+                                
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="coupon_serial_number">Coupon Serial Number</label>
+                                <input type="text" class="form-control" id="coupon_serial_number" name="coupon_serial_number" placeholder="Enter Coupon Number" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-12">
+                            <label for="purpose " class="form-label">Purpose </label>
+                            <textarea name="purpose" id="purpose" class="form-control"  placeholder="Enter Purpose for Fuel Disbursement" rows="2"  ></textarea>
+                        </div>
+                   </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitFuelBtn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; z-index: 9999;"></div>
+    <!-- Popup -->
+    <div class="modal fade" id="numberPlateExistsModal" tabindex="-1" role="dialog" aria-labelledby="numberPlateExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="numberPlateExistsModalLabel">Number Plate Already Exists</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>The number plate you entered already exists. Please enter a different number plate.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    

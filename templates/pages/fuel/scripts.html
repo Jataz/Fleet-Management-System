@@ -1,0 +1,258 @@
+<script>
+
+    // Cascading dropdowns for subProgramme and Location
+    $(document).ready(function() {
+        // Populate subProgrammes dropdown
+        $.ajax({
+            url: '/api/v1/sub-programmes/',
+            dataType: 'json',
+            success: function(data) {
+                $.each(data.subProgrammes, function(index, subprogramme) {
+                    $('#subProgramme-dropdown').append('<option value="' + subprogramme.id + '">' + subprogramme.subProgramme_name + '</option>');
+                });
+            }
+        });
+
+        // Handle change event for subProgrammes dropdown
+        $('#subProgramme-dropdown').change(function() {
+            var subProgrammeId = $(this).val();
+            $('#programme-dropdown').empty();
+            if (subProgrammeId) {
+                $.ajax({
+                    url: '/api/v1/programmes/?subProgramme_id=' + subProgrammeId,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#programme-dropdown').append('<option value="" selected disabled>Select Programme</option>');
+                        $.each(data.programmes, function(index, programme) {
+                            $('#programme-dropdown').append('<option value="' + programme.id + '">' + programme.programme_name + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+
+        //Fetch Vehicle user list
+        $.ajax({
+            url: '/api/v1/vehicle-user-list/', // URL to fetch vehicles data from
+            method: 'GET',
+            success: function(data) {
+                // Populate select element with vehicles data
+                var options = '';
+                data.forEach(function(driver) {
+                    options += '<option value="' + driver.id + '">' + driver.first_name + ' ' + driver.last_name +'</option>';
+                });
+                $('#driver').append(options);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                showToast('error', 'Error', 'Failed to fetch vehicles data');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        // Fetch vehicles data from API and populate select element
+        $.ajax({
+            url: '/api/v1/vehicles/', // URL to fetch vehicles data from
+            method: 'GET',
+            success: function(data) {
+                // Populate select element with vehicles data
+                var options = '';
+                data.forEach(function(vehicle) {
+                    options += '<option value="' + vehicle.id + '">' + vehicle.number_plate + '</option>';
+                });
+                $('#vehicle').append(options);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                showToast('error', 'Error', 'Failed to fetch vehicles data');
+            }
+        });
+
+        // Add event listener for form submission
+        $('#submitFuelBtn').click(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Get form data
+            var formData = {
+                vehicle_id: $('#vehicle').val(),  // Ensure the key matches backend expectation
+                subProgramme_id: $('#subProgramme-dropdown').val(),
+                programme_id: $('#programme-dropdown').val(),
+                purpose: $('#purpose').val(),
+                amount_of_fuel_disbursed: $('#amount_of_fuel_disbursed').val(),
+                coupon_serial_number: $('#coupon_serial_number').val(),
+                driver_id: $('#driver').val(), 
+                issuer_name: $('#issuer_name').val(),
+                transaction_date: $('#transaction_date').val(),
+            };
+
+            // Send AJAX request to submit form data
+            $.ajax({
+                url: '/api/v1/fuel-disbursement-create/', // URL to submit Fuel data
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken") // Get CSRF token from cookie
+                },
+                success: function(response) {
+                    showToast('success', 'Success', 'Fuel Record added successfully');
+                    $("#addMilleagModal").modal("hide");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Delay for 3 seconds (adjust as needed)
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response (e.g., display error message)
+                    console.error('Error submitting Fuel data:', error);
+                    showToast('error', 'Error', 'Failed to submit Fuel data');
+                }
+            });
+        });
+
+        // Function to get the value of a cookie by name
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if cookie name matches the specified name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        // Extract and return the cookie value
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+
+    $(document).ready(function() {
+        // Add event listener when the edit fuel modal is shown
+        $(document).on("show.bs.modal", "#editFuelModal", function(event) {
+            var button = $(event.relatedTarget);
+            var fuelId = button.data("fuel-id");
+    
+            // Fetch Fuel record details for editing
+            $.ajax({
+                url: "/api/v1/fuel-disbursement-update/" + fuelId + "/",
+                method: "GET",
+                success: function(response) {
+                    var modal = $(event.target);
+                    modal.find("#vehicle_id").val(response.vehicle_id); // This line should be changed
+                    modal.find("#purpose").val(response.purpose);
+                    modal.find("#amount_of_fuel_disbursed").val(response.amount_of_fuel_disbursed);
+                    modal.find("#coupon_serial_number").val(response.coupon_serial_number);
+                    modal.find("#driver_name").val(response.driver_name);
+                    modal.find("#issuer_name").val(response.issuer_name);
+                    modal.find("#transaction_date").val(response.transaction_date);
+    
+                    // Populate select options for vehicles
+                    $.ajax({
+                        url: "/api/v1/vehicles/",
+                        method: "GET",
+                        success: function(vehicles) {
+                            var select = modal.find("#vehicle");
+                            select.empty();
+                            vehicles.forEach(function(vehicle) {
+                                var option = $("<option></option>")
+                                    .attr("value", vehicle.id)
+                                    .text(vehicle.number_plate);
+                                select.append(option);
+                            });
+    
+                            // Set selected option for the maintenance record's vehicle
+                            modal.find("#vehicle").val(response.vehicle.id); // Change this line to extract vehicle_id
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error fetching vehicles:", error);
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching Fuel record details:", error);
+                }
+            });
+        });
+    
+        // Add event listener for form submission to update the Fuel record
+        // Submit form data to update the Fuel record
+        $("#editFuelForm").submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var formData = $(this).serialize();
+            var csrfToken = getCookie("csrftoken"); // Get CSRF token
+    
+            // Modify the formData string to replace 'vehicle' with 'vehicle_id'
+            formData = formData.replace(/vehicle=/, 'vehicle_id=');
+            
+            $.ajax({
+                url: "/api/v1/fuel-disbursement-update/" + FuelId + "/",
+                method: "PUT",
+                data: formData,
+                headers: {
+                    "X-CSRFToken": csrfToken // Include CSRF token in headers
+                },
+                success: function(response) {
+                    showToast('success', 'Success', 'Fuel Record updated successfully');
+                    $("#editFuelModal").modal("hide");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Delay for 3 seconds (adjust as needed)
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error updating Fuel record:", error);
+                    showToast('error', 'Error', 'An error occurred while updating the Fuel record');
+                }
+            });
+        });
+    });
+    
+    
+    
+    // Function to get the value of a cookie by name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if cookie name matches the specified name
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    // Extract and return the cookie value
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    // Function to show toast notifications
+    function showToast(type, title, message) {
+        $('.toast').toast('hide'); // Hide any existing toast alerts
+
+        // Construct the toast HTML with appropriate class based on type
+        var toastHTML = `
+            <div class="toast ${type}" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="${type === 'success' ? '5000' : '3000'}">
+                <div class="toast-header">
+                    <strong class="mr-auto">${title}</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            </div>`;
+        
+        // Append the toast HTML to the container
+        $('#toastContainer').append(toastHTML);
+        
+        // Show the toast
+        $('.toast').toast('show');
+    }
+</script>
+

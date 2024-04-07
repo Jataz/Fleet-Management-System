@@ -1,0 +1,136 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addVehicleModalLabel">Add Vehicle</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addVehicleForm" autocomplete="off" style="font-size:15px">
+                    <div class="row g-2">
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle_number">Number Plate</label>
+                                <input type="text" class="form-control" id="number_plate" name="number_plate" placeholder="Enter Vehicle Number Plate" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="vehicle_type">Vehicle Type</label>
+                                <select class="form-control select2" id="vehicle_type" name="vehicle_type" required>
+                                    <option selected="selected" disabled="disabled">Select Vehicle Type</option>
+                                    <option value="Land Cruiser VX">Land Cruiser VX</option>
+                                    <option value="Isuzu D/cab">Isuzu D/cab</option>
+                                    <option value="Isuzu S/cab">Isuzu S/cab</option>
+                                    <option value="FOTON">FOTON</option>
+                                    <option value="JMC S/cab">JMC S/cab</option>
+                                    <option value="Mazda S/cab">Mazda S/cab</option>
+                                    <option value="Mazda Eagle">Mazda Eagle</option>
+                                    <option value="Mazda BT50">Mazda BT50</option>
+                                    <option value="Mazda T35 Bus">Mazda T35 Bus</option>
+                                    <option value="Mazda BT50/KINGCAB">Mazda BT50/KINGCAB</option>
+                                    <option value="Mitsubishi S/Cab">Mitsubishi S/Cab</option>
+                                    <option value="Mitsubishi L200">Mitsubishi L200</option>
+                                    <option value="Mitsubishi Lorry">Mitsubishi Lorry</option>
+                                    <option value="Toyota Coaster">Toyota Coaster</option>
+                                    <option value="Toyota Prado">Toyota Prado</option>
+                                    <option value="Toyota Hilux">Toyota Hilux</option>
+                                    <option value="Toyota Landcruiser">Toyota Landcruiser</option>
+                                    <option value="Toyota Avensis">Toyota Avensis</option>
+                                    <option value="Nissan NP300 D/CAB">Nissan NP300 D/CAB</option>
+                                    <option value="Nissan D/Cab">Nissan D/Cab</option>
+                                    <option value="Nissan H/Body">Nissan H/Body</option>
+                                    <option value="Nissan">Nissan</option>
+                                    <option value="Nissan Hardbody S/CAB">Nissan Hardbody S/CAB</option>
+                                    <option value="Motor Bike">Motor Bike</option>
+                                    <option value="Bicycle">Bicycle</option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="engine_number">Engine Number</label>
+                                <input type="text" class="form-control" id="engine_number" name="engine_number" placeholder="Enter Engine Number" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="classis_number">Classis Number</label>
+                                <input type="text" class="form-control" id="classis_number" name="classis_number" placeholder="Enter Classis Number" required>   
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2"> 
+                        <div class="mb-3 col-md-3">
+                            <div class="form-group">
+                                <label for="province">Province</label>
+                                    <select class="form-control select2" id="province-dropdown" name="province">
+                                        <option selected="selected" disabled="disabled">Select Province</option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-3">
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <select class="form-control select2" id="location-dropdown" name="location">
+                                    <option value="">Select Location</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>                              
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control select2"  id="status" name="status" required>
+                                    <option selected="selected" disabled="disabled">Select Status</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitBtn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 16px; right: 16px; z-index: 9999;"></div>
+    <!-- Popup -->
+    <div class="modal fade" id="numberPlateExistsModal" tabindex="-1" role="dialog" aria-labelledby="numberPlateExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="numberPlateExistsModalLabel">Number Plate Already Exists</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>The number plate you entered already exists. Please enter a different number plate.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    
