@@ -10,15 +10,19 @@ class MaintenanceSerializer(serializers.ModelSerializer):
     number_plate = serializers.ReadOnlyField(source='vehicle.number_plate')
     status_name = serializers.ReadOnlyField(source='status.status_name')
     vehicle_id = serializers.PrimaryKeyRelatedField(queryset=Vehicle.objects.all(), write_only=True, source='vehicle')
-    status_at_service_id = serializers.PrimaryKeyRelatedField(queryset=Status.objects.all(), write_only=True, source='status')
+    status_at_service_id = serializers.PrimaryKeyRelatedField(queryset=Status.objects.all(),  required=False, allow_null=True)
+
     class Meta:
         model = Maintenance
-        fields = ['id','status_at_service_id', 'vehicle_id', 'number_plate', 'status_name', 'last_service_mileage', 'before_next_service_mileage', 'next_service_mileage', 'next_service_date', 'service_type', 'cost_incurred','service_date', 'service_type', 'service_provided', 'service_provider', 'remarks', 'is_serviced','updated_at']
+        fields = ['id','status_at_service_id', 'vehicle_id', 'number_plate', 'status_name', 'last_service_mileage', 'before_next_service_mileage', \
+            'next_service_mileage', 'next_service_date', 'service_type', 'cost_incurred','service_date', 'service_type', 'service_provided', \
+            'service_provider', 'remarks', 'is_serviced','updated_at']
         extra_kwargs = {
             'before_next_service_mileage': {'read_only': True},
             'next_service_mileage': {'read_only': True},
             'is_serviced': {'read_only': True},  # Assuming this is intended to control record creation
             'status_name': {'read_only': True},
+            'status_at_service_id':{'read_only': True},
         }
 
     def create(self, validated_data):

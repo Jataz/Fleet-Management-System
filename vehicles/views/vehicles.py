@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db import transaction
 
 
 #Cascading Dropdown
@@ -218,3 +219,26 @@ class VehicleDetailsAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         except Vehicle.DoesNotExist:
             return Response({'error': 'Vehicle not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class VehicleMaintenanceCreate(generics.CreateAPIView):
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        with transaction.atomic():
+            vehicle_instance = serializer.save()  # Save the vehicle record
+            
+            # Create maintenance record
+            maintenance_data = {
+                'vehicle_id': vehicle_instance.id,  # Assign the vehicle instance
+                'last_service_mileage': request.data.get('last_service_mileage'),  # Extract last_service_mileage from request data
+                'status_at_service_id': request.data.get('status_at_service_id')
+            }
+            maintenance_serializer = MaintenanceSerializer(data=maintenance_data)
+            maintenance_serializer.is_valid(raise_exception=True)
+            maintenance_serializer.save()  # Save the maintenance record
+        
+        return Response({"message": "Vehicle and Maintenance records created successfully"}, status=status.HTTP_201_CREATED)

@@ -160,10 +160,11 @@
                 var location = $("#location-dropdown").val();
                 var engine_number = $("#engine_number").val();
                 var classis_number = $("#classis_number").val();
+                var last_service_mileage = $("#last_service_mileage").val();
                 var status = $("#status").val();
 
                 // Check if any field is empty
-                if (numberPlate === "" || vehicleType === null || engine_number === null|| classis_number === null || province === null || location === null || status === null) {
+                if (numberPlate === "" || vehicleType === null || engine_number === null|| classis_number === null || province === null || location === null || status === null || last_service_mileage ===null ) {
                     // Display error toast for empty fields
                     showToast('error', 'Error', 'Please fill in all fields');
                     return; // Stop form submission
@@ -184,7 +185,7 @@
                         } else {
                             // Number plate is valid, proceed with form submission
                             $.ajax({
-                                url: "/api/v1/vehicle-create/",
+                                url: "/api/v1/vehicle-maintenance-create/",
                                 type: "POST",
                                 contentType: "application/json",
                                 data: JSON.stringify({ 
@@ -194,7 +195,8 @@
                                     classis_number:classis_number,
                                     province_id: province,
                                     location_id: location,
-                                    status_id: status
+                                    status_id: status,
+                                    last_service_mileage:last_service_mileage
                                 }),
                                 headers: {
                                     "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()

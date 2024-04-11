@@ -5,7 +5,7 @@ from .views import FuelDisbursementCreate, FuelDisbursementDetail, FuelDisbursem
     MaintenanceCreate, MileageRecordCreate, MileageRecordDetail, MileageRecordList, ProgrammeAPIView, ProvinceAPIView,\
     StatusAPIView, SubProgrammeAPIView, UpdateFuelDisbursement, UpdateMileageRecord, VehicleCreate,  VehicleDetail,\
     UpdateVehicle,MaintenanceList, MaintenanceDetail, UpdateMaintenance, UserProfileList, MaintenanceApiList,VehicleDetailsAPIView,\
-    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list
+    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list,VehicleMaintenanceCreate
    
 from . import views
 
@@ -13,6 +13,7 @@ from . import views
 urlpatterns = [
     
     path('vehicle-create/', VehicleCreate.as_view(), name='vehicle-create'),
+    path('vehicle-maintenance-create/', VehicleMaintenanceCreate.as_view(), name='vehicle-maintenance-create'),
     path('vehicle-detail/<int:pk>/', VehicleDetail.as_view(), name='vehicle-detail'),
     path('update-vehicle/<int:pk>/', UpdateVehicle.as_view(), name='update-vehicle'),
     path('check-number-plate/', check_vehicle_exists, name='check-number-plate'),

@@ -55,17 +55,24 @@
                     </div>
 
                     <div class="row g-2">
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-3">
                             <div class="form-group">
                                 <label for="engine_number">Engine Number</label>
                                 <input type="text" class="form-control" id="engine_number" name="engine_number" placeholder="Enter Engine Number" required>
                             </div>
                         </div>
 
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-3">
                             <div class="form-group">
                                 <label for="classis_number">Classis Number</label>
                                 <input type="text" class="form-control" id="classis_number" name="classis_number" placeholder="Enter Classis Number" required>   
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="last_service_mileage">Last Service Mileage</label>
+                                <input type="number" class="form-control"  id="last_service_mileage" name="last_service_mileage" placeholder="Enter Last Service Mileage" required>
                             </div>
                         </div>
                     </div>
@@ -99,8 +106,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-outline-primary btn-sm" id="submitBtn">Submit</button>
