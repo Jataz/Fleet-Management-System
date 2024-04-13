@@ -1,4 +1,1 @@
-# Explicit language declaration for GitHub Linguist
-*.py linguist-language=Python
-*.css linguist-language=CSS
-
+*.* linguist-language=Python
