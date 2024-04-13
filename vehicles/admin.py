@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.models import Permission
-from .models import FuelDisbursement, Location, Maintenance, MileageRecord, Programme, Province, Status, SubProgramme, UserProfile, Vehicle
+from .models import FuelDisbursement, FuelType, Location, Maintenance, MileageRecord, Programme, Province, Status, SubProgramme, UserProfile, Vehicle
 
 class ProvinceAdmin(admin.ModelAdmin):
     list_display = ('id', 'province_name')
+
+class FuelTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'fuel_type_name')
 
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('id', 'province', 'location_name')
@@ -21,7 +24,7 @@ class ProgrammeAdmin(admin.ModelAdmin):
     list_display = ('id', 'subProgramme', 'programme_name')
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'province', 'location', 'status', 'number_plate', 'vehicle_type', 'engine_number', 'classis_number', 'created_at', 'updated_at')
+    list_display = ('id', 'province', 'location', 'status', 'number_plate', 'vehicle_type', 'engine_number', 'classis_number','fueltype', 'created_at', 'updated_at')
 
 class MaintenanceAdmin(admin.ModelAdmin):
     list_display = ('id', 'vehicle', 'last_service_mileage', 'is_serviced', 'before_next_service_mileage', 'next_service_mileage', 'next_service_date', 'service_date', 'service_type'\
@@ -37,6 +40,7 @@ class PermissionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'content_type', 'codename')
     
 # Register all models with their corresponding admin classes
+admin.site.register(FuelType, FuelTypeAdmin)
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Status, StatusAdmin)

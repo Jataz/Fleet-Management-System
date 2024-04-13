@@ -5,7 +5,7 @@ from .views import FuelDisbursementCreate, FuelDisbursementDetail, FuelDisbursem
     MaintenanceCreate, MileageRecordCreate, MileageRecordDetail, MileageRecordList, ProgrammeAPIView, ProvinceAPIView,\
     StatusAPIView, SubProgrammeAPIView, UpdateFuelDisbursement, UpdateMileageRecord, VehicleCreate,  VehicleDetail,\
     UpdateVehicle,MaintenanceList, MaintenanceDetail, UpdateMaintenance, UserProfileList, MaintenanceApiList,VehicleDetailsAPIView,\
-    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list,VehicleMaintenanceCreate
+    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list,VehicleMaintenanceCreate,FuelTypeAPIView
    
 from . import views
 
@@ -43,6 +43,7 @@ urlpatterns = [
     path('provinces/', ProvinceAPIView.as_view(), name='provinces'),
     path('locations/', LocationAPIView.as_view(), name='locations'),
     path('statuses/', StatusAPIView.as_view(), name='status'),
+    path('fueltype/', FuelTypeAPIView.as_view(), name='fueltype'),
     
     path('vehicle-user-list/', UserProfileList.as_view(), name="vehicle-user-list"), 
     

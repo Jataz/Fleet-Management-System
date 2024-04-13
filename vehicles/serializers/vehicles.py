@@ -1,6 +1,6 @@
 from datetime import datetime
 from rest_framework import serializers
-from ..models import Location, Programme, Province, Status, SubProgramme, Vehicle,Maintenance, MileageRecord,FuelDisbursement, UserProfile
+from ..models import FuelType, Location, Programme, Province, Status, SubProgramme, Vehicle,Maintenance, MileageRecord,FuelDisbursement, UserProfile
 from django.db import transaction
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
@@ -25,6 +25,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name'] 
+
+class FuelTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FuelType
+        fields = ['id', 'fuel_type_name']
         
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -44,12 +49,14 @@ class VehicleSerializer(serializers.ModelSerializer):
     province_name = serializers.ReadOnlyField(source='province.province_name')
     location_name = serializers.ReadOnlyField(source='location.location_name')
     status_name = serializers.ReadOnlyField(source='status.status_name')
+    fuel_type = serializers.ReadOnlyField(source='fueltype.fuel_type_name')
     province_id = serializers.PrimaryKeyRelatedField(queryset=Province.objects.all(), write_only=True, source='province')
     location_id = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all(), write_only=True, source='location')
     status_id = serializers.PrimaryKeyRelatedField(queryset=Status.objects.all(), write_only=True, source='status')
+    fueltype_id = serializers.PrimaryKeyRelatedField(queryset=FuelType.objects.all(), write_only=True, source='fueltype')
 
     class Meta:
         model = Vehicle
-        fields = ['id', 'province_id', 'location_id', 'status_id', 'number_plate', 'vehicle_type',\
+        fields = ['id', 'province_id','fueltype_id', 'location_id','fuel_type', 'status_id', 'number_plate', 'vehicle_type',\
             'province_name', 'location_name', 'status_name','classis_number','engine_number']
         

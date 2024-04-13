@@ -64,6 +64,7 @@
                       <th>Vehicle Type</th>
                       <th>Province</th>
                       <th>Location</th>
+                      <th>Fuel Type</th>
                       <th>Status</th>
                       {% if perms.vehicles.vehicle_actions  %}
                       <th>Actions</th>
@@ -78,6 +79,7 @@
                           <td>{{ vehicle.vehicle_type }}</td>
                           <td>{{ vehicle.province_name }}</td>
                           <td>{{ vehicle.location_name }}</td>
+                          <td>{{ vehicle.fuel_type}}</td>
                           <td>
                             {% if vehicle.status_name == 'Serviced' %}
                                 <span class="badge badge-success">{{ vehicle.status_name }}</span>

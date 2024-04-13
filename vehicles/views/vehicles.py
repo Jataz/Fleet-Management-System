@@ -5,14 +5,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 
-from ..models import  Location, Maintenance, MileageRecord, Province, Status,Vehicle,UserProfile
-from ..serializers import  LocationSerializer,ProvinceSerializer,StatusSerializer,VehicleSerializer,UserProfileSerializer,MaintenanceSerializer,MileageRecordSerializer
+from ..models import  FuelType, Location, Maintenance, MileageRecord, Province, Status,Vehicle,UserProfile
+from ..serializers import  LocationSerializer,ProvinceSerializer,StatusSerializer,VehicleSerializer,UserProfileSerializer,MaintenanceSerializer,\
+    MileageRecordSerializer,FuelTypeSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db import transaction
+
+
+#Fuel Type
+class FuelTypeAPIView(APIView):
+    def get(self, request):
+        fueltype = FuelType.objects.all()
+        serializer = FuelTypeSerializer(fueltype, many=True)
+        return Response({'fueltype': serializer.data})
 
 
 #Cascading Dropdown

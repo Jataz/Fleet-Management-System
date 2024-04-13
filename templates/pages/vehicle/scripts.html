@@ -32,6 +32,22 @@
         });
     });
 
+    // Populate Fuel Type dropdown
+    $(document).ready(function() {
+        fetch('/api/v1/fueltype/')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('fuel');
+                data.fueltype.forEach(fuel => {
+                    const option = document.createElement('option');
+                    option.value = fuel.id;
+                    option.textContent = fuel.fuel_type_name;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching Fuel Type options:', error));
+    });
+
     // Populate Status dropdown
     $(document).ready(function() {
         fetch('/api/v1/statuses/')
@@ -162,6 +178,7 @@
                 var classis_number = $("#classis_number").val();
                 var last_service_mileage = $("#last_service_mileage").val();
                 var status = $("#status").val();
+                var fuel = $("#fuel").val();
 
                 // Check if any field is empty
                 if (numberPlate === "" || vehicleType === null || engine_number === null|| classis_number === null || province === null || location === null || status === null || last_service_mileage ===null ) {
@@ -196,7 +213,8 @@
                                     province_id: province,
                                     location_id: location,
                                     status_id: status,
-                                    last_service_mileage:last_service_mileage
+                                    last_service_mileage:last_service_mileage,
+                                    fueltype_id:fuel
                                 }),
                                 headers: {
                                     "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()

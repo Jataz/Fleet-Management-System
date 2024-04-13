@@ -31,11 +31,15 @@ class SubProgramme(models.Model):
 class Programme(models.Model):
     subProgramme = models.ForeignKey(SubProgramme, on_delete=models.CASCADE)
     programme_name = models.CharField(max_length = 1000)
+
+class FuelType(models.Model):
+    fuel_type_name = models.CharField(max_length = 20)
     
 class Vehicle(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    fueltype = models.ForeignKey(FuelType, on_delete=models.SET_NULL, null=True, blank=True)
     number_plate = models.CharField(max_length=20, unique=True)
     vehicle_type = models.CharField(max_length=100)
     engine_number = models.CharField(max_length=100)
