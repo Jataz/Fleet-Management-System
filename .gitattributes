@@ -2,8 +2,11 @@
 *.js linguist-vendored=false
 
 # Explicitly include Python files in language statistics
-*.py linguist-vendored=false
-*.py linguist-language=Python
+#*.py linguist-vendored=false
+#*.py linguist-language=Python
+
+vehicles/*.py linguist-language=Python
+
 
 
 # Explicitly include HTML files in language statistics
