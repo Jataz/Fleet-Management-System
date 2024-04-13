@@ -1,5 +1,4 @@
 # Explicit language declaration for GitHub Linguist
 *.py linguist-language=Python
 *.css linguist-language=CSS
-# Explicitly include HTML files in language statistics
-*.html linguist-language=HTML
+
