@@ -30,7 +30,21 @@
                 });
             }
         });
-
+    //Fetch Fuel Type
+        $(document).ready(function() {
+            fetch('/api/v1/fueltype/')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('fuel');
+                    data.fueltype.forEach(fuel => {
+                        const option = document.createElement('option');
+                        option.value = fuel.id;
+                        option.textContent = fuel.fuel_type_name;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching Fuel Type options:', error));
+        });
         //Fetch Vehicle user list
         $.ajax({
             url: '/api/v1/vehicle-user-list/', // URL to fetch vehicles data from
@@ -99,6 +113,62 @@
                 success: function(response) {
                     showToast('success', 'Success', 'Fuel Record added successfully');
                     $("#addMilleagModal").modal("hide");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Delay for 3 seconds (adjust as needed)
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response (e.g., display error message)
+                    console.error('Error submitting Fuel data:', error);
+                    showToast('error', 'Error', 'Failed to submit Fuel data');
+                }
+            });
+        });
+
+        // Function to get the value of a cookie by name
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if cookie name matches the specified name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        // Extract and return the cookie value
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+//API call for adding fuel Received
+    $(document).ready(function() {
+        // Add event listener for form submission
+        $('#submitFuelRecieved').click(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Get form data
+            var formData = {
+                quantity_received : $("#quantity_received").val(),
+                monthly:$("#monthly").val(),
+                fueltype_id : $("#fuel").val()
+            };
+
+            // Send AJAX request to submit form data
+            $.ajax({
+                url: '/api/v1/fuel-received-create/', // URL to submit Fuel data
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken") // Get CSRF token from cookie
+                },
+                success: function(response) {
+                    showToast('success', 'Success', 'Fuel Record added successfully');
+                    $("#addFuelReceivedModal").modal("hide");
                     setTimeout(function() {
                         window.location.reload();
                     }, 3000); // Delay for 3 seconds (adjust as needed)
@@ -210,8 +280,6 @@
             });
         });
     });
-    
-    
     
     // Function to get the value of a cookie by name
     function getCookie(name) {

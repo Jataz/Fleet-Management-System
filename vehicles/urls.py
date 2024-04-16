@@ -5,7 +5,8 @@ from .views import FuelDisbursementCreate, FuelDisbursementDetail, FuelDisbursem
     MaintenanceCreate, MileageRecordCreate, MileageRecordDetail, MileageRecordList, ProgrammeAPIView, ProvinceAPIView,\
     StatusAPIView, SubProgrammeAPIView, UpdateFuelDisbursement, UpdateMileageRecord, VehicleCreate,  VehicleDetail,\
     UpdateVehicle,MaintenanceList, MaintenanceDetail, UpdateMaintenance, UserProfileList, MaintenanceApiList,VehicleDetailsAPIView,\
-    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list,VehicleMaintenanceCreate,FuelTypeAPIView
+    MileageRecordApiList,  check_vehicle_exists,vehicles_in_user_province,vehicles_list,VehicleMaintenanceCreate,FuelTypeAPIView,FuelReceivedCreate,\
+    FuelReceivedList
    
 from . import views
 
@@ -35,10 +36,11 @@ urlpatterns = [
     
     #Fuel Disbursememt API
     path('fuel-disbursements/', FuelDisbursementList.as_view(), name='fuel-disbursement'),
-     path('fuel-disbursement-create/', FuelDisbursementCreate.as_view(), name='fuel-disbursement-create'),
+    path('fuel-disbursement-create/', FuelDisbursementCreate.as_view(), name='fuel-disbursement-create'),
     path('fuel-disbursement-detail/<int:pk>/', FuelDisbursementDetail.as_view(), name='fuel-disbursement-detail'),
     path('fuel-disbursement-update/<int:pk>/', UpdateFuelDisbursement.as_view(), name='fuel-disbursement-update'),
-    
+    path('fuel-received-create/', FuelReceivedCreate.as_view(), name='fuel-received-create'),
+    path('fuel-received-list/', FuelReceivedList.as_view(), name='fuel-received-list'),        
     #Dropdowns
     path('provinces/', ProvinceAPIView.as_view(), name='provinces'),
     path('locations/', LocationAPIView.as_view(), name='locations'),
@@ -58,6 +60,7 @@ urlpatterns = [
     path('mileage-list/', views.mileage_list, name='mileage-list'),
     path('fuel-disbursed/', views.fuel_disbursed, name='fuel-disbursed'),
     path('fuel-received/',views.fuel_received, name='fuel-received'),
+    path('fuel-allocation/',views.fuel_allocation, name='fuel-allocation'),
     path('login/', views.UserLoginView.as_view(), name='login'),
     path('logout/', views.user_logout_view, name='logout'), 
     

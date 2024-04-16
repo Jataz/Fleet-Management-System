@@ -89,11 +89,23 @@ def fuel_disbursed(request):
 @login_required(login_url="/login")  
 def fuel_received(request):
     
-    response = requests.get(f'{settings.API_BASE_URL}/api/v1/fuel-disbursements/')
+    response = requests.get(f'{settings.API_BASE_URL}/api/v1/fuel-received-list/')
     
     if response.status_code == 200:
-        fuel_disbursements= response.json()  # Extract JSON data from the response
-        return render(request, 'pages/fuel/fuel_received.html', {'fuel_disbursements': fuel_disbursements})
+        received= response.json()  # Extract JSON data from the response
+        return render(request, 'pages/fuel/fuel_received.html', {'received': received})
+    else:
+        # Handle the case where the request was not successful
+        return render(request, 'error.html', {'message': 'Failed to fetch vehicles'})
+    
+@login_required(login_url="/login")  
+def fuel_allocation(request):
+    
+    response = requests.get(f'{settings.API_BASE_URL}/api/v1/fuel-received-list/')
+    
+    if response.status_code == 200:
+        allocations= response.json()  # Extract JSON data from the response
+        return render(request, 'pages/fuel/fuel_allocation.html', {'allocations': allocations})
     else:
         # Handle the case where the request was not successful
         return render(request, 'error.html', {'message': 'Failed to fetch vehicles'})

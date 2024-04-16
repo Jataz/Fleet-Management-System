@@ -10,9 +10,10 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers import FuelDisbursementSerializer,SubProgrammeSerializer,ProgrammeSerializer
+from ..serializers import FuelDisbursementSerializer,SubProgrammeSerializer,ProgrammeSerializer,FuelTypeSerializer,\
+    FuelReceivedSerializer,FuelAllocationSerializer
 
-from ..models import FuelDisbursement, Programme, SubProgramme
+from ..models import FuelDisbursement, Programme, SubProgramme,FuelAllocation,FuelReceipt
 
 
 class SubProgrammeAPIView(APIView):
@@ -65,5 +66,18 @@ class UpdateFuelDisbursement(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
+class FuelReceivedCreate(generics.CreateAPIView):
+    queryset = FuelReceipt.objects.all()
+    serializer_class = FuelReceivedSerializer
   
+class FuelReceivedList(generics.ListAPIView):
+    queryset = FuelReceipt.objects.all()
+    serializer_class = FuelReceivedSerializer
+    
+class FuelAllocationCreate(generics.CreateAPIView):
+    queryset = FuelAllocation.objects.all()
+    serializer_class = FuelAllocationSerializer
+    
+class FuelAllocationList(generics.ListAPIView):
+    queryset = FuelReceipt.objects.all()
+    serializer_class = FuelAllocationSerializer

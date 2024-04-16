@@ -1,43 +1,54 @@
 <!-- Modal -->
-<div class="modal fade" data-backdrop="static" id="addFuelReceivedModal" tabindex="-1" role="dialog" aria-labelledby="addFuelReceivedModalLabel" aria-hidden="true">
+<div class="modal fade" data-backdrop="static" id="addFuelAllocationModal" tabindex="-1" role="dialog" aria-labelledby="addFuelAllocationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addFuelReceivedModalLabel">Fuel Received</h4>
+                <h4 class="modal-title" id="addFuelAllocationModalLabel">Add Fuel Received</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addFuelReceived" autocomplete="off" style="font-size:15px">
+                <form id="addFuelForm" autocomplete="off" style="font-size:15px">
                     <div class="row">
-                        <div class="mb-3 col-md-5">
+                        <div class="mb-3 col-md-6">
                             <div class="form-group">
-                                <label for="quantity_received">Total Fuel Received</label>
-                                <input type="number" class="form-control" id="quantity_received" name="quantity_received" placeholder="Enter Total Fuel Received" required>                            
+                                <label for="amount_of_fuel_disbursed">Total Fuel Received</label>
+                                <input type="number" class="form-control" id="amount_of_fuel_received" name="amount_of_fuel_received" placeholder="Enter Total Fuel Received" required>                            
+                            </div>
+                        </div>
+                    
+                        <div class="mb-3 col-md-6">
+                            <div class="form-group">
+                                <label for="transaction_date">Date Fuel Received</label>
+                                <input type="date" class="form-control" id="transaction_date" name="transaction_date" placeholder="Select Disbursement Date" required>
+                            </div>
+                        </div>
+                   
+                        <div class="mb-3 col-md-4">
+                            <div class="form-group">
+                                <label for="vehicle">Programme 1</label>
+                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation for programme 1">
                             </div>
                         </div>
 
                         <div class="mb-3 col-md-4">
                             <div class="form-group">
-                                <label for="quantity_received">Monthly Allocation</label>
-                                <input type="text" class="form-control" id="monthly" name="monthly" placeholder="Enter Monthly Allocation" required>                            
+                                <label for="vehicle">Programme 2</label>
+                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation programme 2">
                             </div>
                         </div>
-                    
-                        <div class="mb-3 col-md-3">
+                        <div class="mb-3 col-md-4">
                             <div class="form-group">
-                                <label for="fueltype">Fuel Type</label>
-                                <select class="form-control select2"  id="fuel" name="fuel_type_name" required>
-                                    <option selected="selected" disabled="disabled">Select Fuel Type</option>
-                                </select>
+                                <label for="vehicle">Programme 3</label>
+                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation programme 3 ">
                             </div>
                         </div>
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitFuelRecieved">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitFuelBtn">Submit</button>
                     </div>
                 </form>
             </div>

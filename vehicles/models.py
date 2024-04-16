@@ -79,7 +79,24 @@ class MileageRecord(models.Model):
     
     def __str__(self):
         return f"Mileage record for {self.vehicle.number_plate}"
+    
+class FuelReceipt(models.Model):
+    fueltype = models.ForeignKey(FuelType, on_delete=models.CASCADE)
+    quantity_received = models.DecimalField(max_digits=10, decimal_places=2)  # In litres
+    received_date = models.DateField(auto_now_add=True)
+    monthly = models.CharField(max_length=200,null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2,null=True)
+    is_used = models.BooleanField(default=False)
+    def __str__(self):
+        return f"{self.fuel_type.type_name} - {self.quantity_received} litres received"
 
+class FuelAllocation(models.Model):
+    subProgramme = models.ForeignKey(SubProgramme, on_delete=models.CASCADE)
+    fuel_receipt = models.ForeignKey(FuelReceipt, related_name='allocations', on_delete=models.CASCADE)
+    allocated_litres = models.DecimalField(max_digits=10, decimal_places=2)
+    remaining_litres = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    allocation_date = models.DateField(auto_now_add=True)
+    
 class FuelDisbursement(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     subProgramme= models.ForeignKey(SubProgramme, on_delete=models.CASCADE,null=True)
@@ -95,4 +112,3 @@ class FuelDisbursement(models.Model):
     
     def __str__(self):
         return f"Fuel disbursement for {self.vehicle.number_plate}"
-    
