@@ -11,11 +11,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..serializers import FuelDisbursementSerializer,SubProgrammeSerializer,ProgrammeSerializer,FuelTypeSerializer,\
-    FuelReceivedSerializer,FuelAllocationSerializer
+    FuelReceivedSerializer,FuelAllocationSerializer,MonthlyAllocationSerializer
 
 from ..models import FuelDisbursement, Programme, SubProgramme,FuelAllocation,FuelReceipt
 
 
+
+class MonthlyAllocationAPIView(APIView):
+    def get(self, request):
+        monthly_allocation = FuelReceipt.objects.all()
+        serializer = MonthlyAllocationSerializer(monthly_allocation, many=True)
+        return Response({'monthly_allocation': serializer.data})
+    
 class SubProgrammeAPIView(APIView):
     def get(self, request):
         subProgrammes = SubProgramme.objects.all()

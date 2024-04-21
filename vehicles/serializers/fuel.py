@@ -12,6 +12,11 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         model= Programme
         fields = ['id','programme_name']
         
+class MonthlyAllocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= FuelReceipt
+        fields = ['id','monthly']
+        
 class FuelReceivedSerializer(serializers.ModelSerializer):
     fuel_type = serializers.ReadOnlyField(source='fueltype.fuel_type_name')
     fueltype_id = serializers.PrimaryKeyRelatedField(queryset=FuelType.objects.all(), write_only=True, source='fueltype')
@@ -23,11 +28,11 @@ class FuelReceivedSerializer(serializers.ModelSerializer):
 class FuelAllocationSerializer(serializers.ModelSerializer):
     subProgramme_name = serializers.ReadOnlyField(source='subProgramme.subProgramme_name')
     subProgramme_id = serializers.PrimaryKeyRelatedField(queryset=SubProgramme.objects.all(), write_only=True, source='subProgramme')
-    fuel_type = serializers.ReadOnlyField(source='fueltype.fuel_type_name')
-    fueltype_id = serializers.PrimaryKeyRelatedField(queryset=FuelType.objects.all(), write_only=True, source='fueltype')
+    monthly = serializers.ReadOnlyField(source='fuelreceipt.monthly')
+    fuel_receipt_id = serializers.PrimaryKeyRelatedField(queryset=FuelReceipt.objects.all(), write_only=True, source='fuelreceipt')
     class Meta:
         model = FuelAllocation
-        fields = ['id', 'fueltype_id', 'fuel_type', 'quantity_received', 'received_date', 'cost']
+        fields = ['id', 'fuel_receipt_id', 'monthly', 'allocated_litres', 'remaining_litres', 'allocation_date']
 
 class FuelDisbursementSerializer(serializers.ModelSerializer):
     number_plate = serializers.ReadOnlyField(source='vehicle.number_plate')

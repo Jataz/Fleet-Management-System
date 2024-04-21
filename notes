@@ -4,6 +4,7 @@ Add these permissions to the admin
 *mileage_list
 *fuel_list
 *fuel_received_list
+*fuel_allocation_list
 *fuel_disbursed_list  
 *add_maintenance_remark  
 
@@ -11,4 +12,5 @@ Add these permissions to the admin
 *mileage_actions
 *maintenance_actions
 *fuel_received_actions
+*fuel_allocation_actions
 *fuel_disbursed_actions

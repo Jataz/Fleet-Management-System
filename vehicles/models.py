@@ -39,7 +39,7 @@ class Vehicle(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    fueltype = models.ForeignKey(FuelType, on_delete=models.SET_NULL, null=True, blank=True)
+    fueltype = models.ForeignKey(FuelType, on_delete=models.CASCADE)
     number_plate = models.CharField(max_length=20, unique=True)
     vehicle_type = models.CharField(max_length=100)
     engine_number = models.CharField(max_length=100)
@@ -83,6 +83,7 @@ class MileageRecord(models.Model):
 class FuelReceipt(models.Model):
     fueltype = models.ForeignKey(FuelType, on_delete=models.CASCADE)
     quantity_received = models.DecimalField(max_digits=10, decimal_places=2)  # In litres
+    remaining_litres = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     received_date = models.DateField(auto_now_add=True)
     monthly = models.CharField(max_length=200,null=True)
     cost = models.DecimalField(max_digits=10, decimal_places=2,null=True)

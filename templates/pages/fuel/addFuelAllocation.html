@@ -17,38 +17,38 @@
                                 <input type="number" class="form-control" id="amount_of_fuel_received" name="amount_of_fuel_received" placeholder="Enter Total Fuel Received" required>                            
                             </div>
                         </div>
-                    
+
                         <div class="mb-3 col-md-6">
                             <div class="form-group">
-                                <label for="transaction_date">Date Fuel Received</label>
-                                <input type="date" class="form-control" id="transaction_date" name="transaction_date" placeholder="Select Disbursement Date" required>
-                            </div>
-                        </div>
-                   
-                        <div class="mb-3 col-md-4">
-                            <div class="form-group">
-                                <label for="vehicle">Programme 1</label>
-                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation for programme 1">
+                                <label for="fueltype">Sub Programme</label>
+                                <select class="form-control select2"  id="subprogramme" name="subProgramme_name" required>
+                                    <option selected="selected" disabled="disabled">Select Sub Programme</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             <div class="form-group">
-                                <label for="vehicle">Programme 2</label>
-                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation programme 2">
+                                <label for="fueltype">Monthly Allocation</label>
+                                <select class="form-control select2"  id="fuel" name="fuel_type_name" required>
+                                    <option selected="selected" disabled="disabled">Select Monthly Allocation</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="mb-3 col-md-4">
+                    
+
+                   
+                        <div class="mb-3 col-md-6">
                             <div class="form-group">
-                                <label for="vehicle">Programme 3</label>
-                                <input type="number" class="form-control" name="" id="" placeholder="Enter allocation programme 3 ">
+                                <label for="vehicle">Allocated litres</label>
+                                <input type="number" class="form-control" name="allocated_litres" id="allocated_litres" placeholder="Enter allocation for Sub Programme">
                             </div>
                         </div>
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitFuelBtn">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm" id="submitFuelAllocationBtn">Submit</button>
                     </div>
                 </form>
             </div>
