@@ -14,13 +14,14 @@ environ.Env.read_env()  # Assuming your .env file is in the same directory as se
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-)hgggg^qiy2mty)w2zeqmcxcp=%q#@iq46zle-p_hx^x2h&den')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['127.0.0.1','fleet-management-system-production.up.railway.app', 'www.fleet-management-system-production.up.railway.app']
+#ALLOWED_HOSTS = ['127.0.0.1','fleet-management-system-production.up.railway.app', 'www.fleet-management-system-production.up.railway.app']
 
 # Base URL for API calls
-#API_BASE_URL = env('API_BASE_URL', default='https://fleet-management-system-production.up.railway.app')
-API_BASE_URL = env('API_BASE_URL', default='http://127.0.0.1:8000')
+API_BASE_URL = env('API_BASE_URL', default='https://fleet-management-system-production.up.railway.app')
+#API_BASE_URL = env('API_BASE_URL', default='http://127.0.0.1:8000')
+ALLOWED_HOSTS = ['fleet-management-system-production.up.railway.app', 'www.fleet-management-system-production.up.railway.app']
 
 # Application definition
 INSTALLED_APPS = [
