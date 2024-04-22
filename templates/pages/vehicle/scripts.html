@@ -382,11 +382,16 @@
     
                 // Append new rows
                 data.forEach(function(record, index) {
+                    const firstName = record.user_profile.user.first_name || '';
+                    const lastName = record.user_profile.user.last_name || '';
+                
+                    // Concatenate first name and last name with a space, and trim any extra spaces
+                    const fullName = `${firstName} ${lastName}`.trim();
                     table.row.add([
                     index + 1,
                     record.created_at,
                     record.mileage_reading,
-                    record.user_profile.user.first_name + record.user_profile.user.last_name ,
+                    fullName
                     ]);
                 });
     
